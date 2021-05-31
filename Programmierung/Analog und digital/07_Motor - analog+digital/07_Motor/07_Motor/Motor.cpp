@@ -51,6 +51,9 @@
 #define  Line_R3	Analogue_value[7] //Line sensor right outside
 
 
+#define d_L_normal 241
+#define d_R_normal 255
+
 //Macros
 #define	LED_ON				PORTB |= (1 << PORTB5) //Push PORTB pin 5 high (LED, pin D13 "Nano")
 #define	LED_OFF				PORTB &= ~(1 << PORTB5) //~ Not Operator
@@ -65,7 +68,8 @@ unsigned char Line_R0_digit;
 unsigned char Line_all_digit;
 unsigned char linecounter;
 unsigned char Threshold;
-char verhaltnis;
+char sum_L;
+char sum_R;
 
 unsigned char US_Time_L; //Runtime of US signal, HI part
 unsigned char US_Time_R; //Runtime of US signal, HI part
@@ -95,95 +99,14 @@ int main(void) {
 	
 	
 	while (1) {
-		
-		verhaltnis = ((100 * Line_L1) / Line_R1);
-		Data_Visualizer(); //Define the values to be displayed
-		
-		Line_all_digit = 0b00000000; //set all line-values to 0
-		linecounter = 8;
-		if(Line_L3 < Threshold){
-			 Line_all_digit |= 0b10000000;
-			 linecounter--;
-		} //if left sensor sees white set left bit to 1
-		if(Line_L2 < Threshold){
-			Line_all_digit |= 0b01000000;
-			linecounter--;
+		sum_L = Analogue_value[0] + Analogue_value[1] + Analogue_value[2] + Analogue_value[3];
+		sum_R = Analogue_value[4] + Analogue_value[5] + Analogue_value[6] + Analogue_value[7];
+		if (US_Time_L > 26 && US_Time_R > 26){
+			if (sum_L > sum_R) Forward((unsigned char) 95+25*(sum_R/sum_L),127);
+			else Forward(120,(unsigned char) 100+27*(sum_L/sum_R));
 		}
-		if(Line_L1 < Threshold){
-			 Line_all_digit |= 0b00100000;
-			 linecounter--;
-		}
-		if(Line_L0 < Threshold){ 
-			Line_all_digit |= 0b00010000;
-			linecounter--;
-		}
-		if(Line_R0 < Threshold){
-			Line_all_digit |= 0b00001000;
-			linecounter--;
-		}
-		if(Line_R1 < Threshold){
-			Line_all_digit |= 0b00000100;
-			linecounter--;
-		}
-		if(Line_R2 < Threshold){
-			Line_all_digit |= 0b00000010;
-			linecounter--;
-		}
-		if(Line_R3 < Threshold){
-			Line_all_digit |= 0b00000001;
-			linecounter--;
-		} //if right sensor sees white set right bit to 1
-		
-		if(US_Time_L < 22 || US_Time_R < 22) Stop();  //|| US_Time_R < 22
 		else{
-			if((Line_all_digit & 0b11000011) == 0b11000011){ //detect if lines only on inner sensors
-				if(Line_L1 > Line_R1){
-					 if((Line_L1 - Line_R1) > 24) Forward((191+(64*(Line_R1/Line_L1))),255);
-					 else Forward(255,255);
-				}
-				else{
-					 if((Line_R1 - Line_L1) > 24) Forward(255,(191+(64*(Line_L1/Line_R1))));
-					 else Forward(255,255);
-				}
-			}
-			else{
-				if(linecounter == 2){
-					if(Line_all_digit == 231) Forward(255,255);
-					else if(Line_all_digit > 231 && Line_all_digit < 252) Forward(255, 127);
-					else if(Line_all_digit < 231 && Line_all_digit > 127) Forward(127,255);
-					else if(Line_all_digit < 128) Forward(63,255);
-					else if(Line_all_digit > 251) Forward(255,63);
-					timer = 1;
-				}
-				else if(linecounter == 3){
-					if(Line_all_digit == 199) Forward(160,255);
-					else if(Line_all_digit == 227) Forward(255,160);
-					else if(Line_all_digit == 241) Forward(255, 127);
-					else if(Line_all_digit == 143) Forward(127,255);
-					else if(Line_all_digit == 31) Forward(63,255);
-					else if(Line_all_digit == 248) Forward(255,63);
-					timer = 1;
-				}
-				else if(linecounter == 4){
-					if(Line_all_digit == 195) Forward(255,255);
-					else if(Line_all_digit == 135) Forward(170,255);
-					else if(Line_all_digit == 225) Forward(255,170);
-					else if(Line_all_digit == 15) Forward(100,255);
-					else if(Line_all_digit == 240) Forward(255,100);
-					timer = 1;
-				}
-				else if(linecounter == 0 || (linecounter ==1 && Line_all_digit < 252 && Line_all_digit > 222)){
-					if(timer > 2 && timer < 35){
-						Forward(255,255);
-						LED_ON;
-					}
-					else {
-						LED_OFF;
-						Stop();
-					}
-				}
-				else Stop();
-				}	
+			Stop();
 		}
 	}
 }
