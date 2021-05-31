@@ -64,8 +64,6 @@ unsigned char Line_L0_digit;
 unsigned char Line_R0_digit;
 unsigned char Line_all_digit;
 unsigned char linecounter;
-unsigned char Threshold;
-char verhaltnis;
 
 unsigned char US_Time_L; //Runtime of US signal, HI part
 unsigned char US_Time_R; //Runtime of US signal, HI part
@@ -90,50 +88,73 @@ int main(void) {
 	_delay_ms(1000);
 	//char Motor_Left = 185; //Normal PWM parameter for...
 	//char Motor_Right = 192; //...driving straight on
-	Threshold = 100;	
-	
-	
-	
+
+
+	//initial
+	unsigned char white[8] = Analogue_value[];
+	unsigned char black[8] = Analogue_value[];
+	unsigned char Threshold[8];
+
+	//slowly straight driving to detect values
+	Forward((unsigned char) d_L_normal/4,(unsigned char) d_R_normal/4);
+
+	timer = 1;
+	while (timer > 0 && timer < 30 && US_Time_L > 24 && US_Time_R > 24){
+	  for (unsigned char int i = 0; i < 8; i++){
+	    if (white[i] > Analogue_value[i]) {
+	      white[i] = Analogue_value[i];
+	      timer = 1;
+	    }
+	    if (black[i] < Analogue_value[i]){
+	      black[i] = Analogue_value[i];
+	      timer = 1;
+	    }
+	    Threshold[i] = (black[i] - white[i]) /2;
+	  }
+	}
+	timer = 0;
+	Stop();
+
 	while (1) {
-		
-		verhaltnis = ((100 * Line_L1) / Line_R1);
 		Data_Visualizer(); //Define the values to be displayed
-		
+
+
+		//detecting if the value of a certain sensor reeaches the threshold
 		Line_all_digit = 0b00000000; //set all line-values to 0
 		linecounter = 8;
-		if(Line_L3 < Threshold){
+		if(Line_L3 < Threshold[0]){
 			 Line_all_digit |= 0b10000000;
 			 linecounter--;
 		} //if left sensor sees white set left bit to 1
-		if(Line_L2 < Threshold){
+		if(Line_L2 < Threshold[1]){
 			Line_all_digit |= 0b01000000;
 			linecounter--;
 		}
-		if(Line_L1 < Threshold){
+		if(Line_L1 < Threshold[2]){
 			 Line_all_digit |= 0b00100000;
 			 linecounter--;
 		}
-		if(Line_L0 < Threshold){ 
+		if(Line_L0 < Threshold[3]){
 			Line_all_digit |= 0b00010000;
 			linecounter--;
 		}
-		if(Line_R0 < Threshold){
+		if(Line_R0 < Threshold[4]){
 			Line_all_digit |= 0b00001000;
 			linecounter--;
 		}
-		if(Line_R1 < Threshold){
+		if(Line_R1 < Threshold[5]){
 			Line_all_digit |= 0b00000100;
 			linecounter--;
 		}
-		if(Line_R2 < Threshold){
+		if(Line_R2 < Threshold[6]){
 			Line_all_digit |= 0b00000010;
 			linecounter--;
 		}
-		if(Line_R3 < Threshold){
+		if(Line_R3 < Threshold[7]){
 			Line_all_digit |= 0b00000001;
 			linecounter--;
 		} //if right sensor sees white set right bit to 1
-		
+
 		if(US_Time_L < 22 || US_Time_R < 22) Stop();  //|| US_Time_R < 22
 		else{
 			if((Line_all_digit & 0b11000011) == 0b11000011){ //detect if lines only on inner sensors
@@ -183,7 +204,7 @@ int main(void) {
 					}
 				}
 				else Stop();
-				}	
+				}
 		}
 	}
 }
@@ -215,8 +236,3 @@ void Data_Visualizer (void) {
 }
 
 /***************************************************************************************/
-
-
-
-
-
