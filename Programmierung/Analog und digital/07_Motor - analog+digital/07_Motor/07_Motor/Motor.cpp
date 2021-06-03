@@ -64,8 +64,8 @@ unsigned char Line_L0_digit;
 unsigned char Line_R0_digit;
 unsigned char Line_all_digit;
 unsigned char linecounter;
+bool all_black;
 unsigned char Threshold;
-char verhaltnis;
 
 unsigned char US_Time_L; //Runtime of US signal, HI part
 unsigned char US_Time_R; //Runtime of US signal, HI part
@@ -93,10 +93,7 @@ int main(void) {
 	Threshold = 100;	
 	
 	
-	
 	while (1) {
-		
-		verhaltnis = ((100 * Line_L1) / Line_R1);
 		Data_Visualizer(); //Define the values to be displayed
 		
 		Line_all_digit = 0b00000000; //set all line-values to 0
@@ -133,47 +130,55 @@ int main(void) {
 			Line_all_digit |= 0b00000001;
 			linecounter--;
 		} //if right sensor sees white set right bit to 1
+		if(linecounter == 8) all_black = true;
 		
-		if(US_Time_L < 22 || US_Time_R < 22) Stop();  //|| US_Time_R < 22
+		if(US_Time_L < 25 || US_Time_R < 25) Stop();  //|| US_Time_R < 22
 		else{
-			if((Line_all_digit & 0b11000011) == 0b11000011){ //detect if lines only on inner sensors
+			if((Line_all_digit & 0b11000011) == 0b11000011 && linecounter != 0){ //detect if lines only on inner sensors
 				if(Line_L1 > Line_R1){
-					 if((Line_L1 - Line_R1) > 24) Forward((191+(64*(Line_R1/Line_L1))),255);
+					 if((Line_L1 - Line_R1) > 14) Forward((210+(45*(Line_R1/Line_L1))),255);
 					 else Forward(255,255);
+					 timer = 1;
 				}
 				else{
-					 if((Line_R1 - Line_L1) > 24) Forward(255,(191+(64*(Line_L1/Line_R1))));
+					 if((Line_R1 - Line_L1) > 14) Forward(255,(210+(45*(Line_L1/Line_R1))));
 					 else Forward(255,255);
+					 timer = 1;
 				}
 			}
 			else{
 				if(linecounter == 2){
-					if(Line_all_digit == 231) Forward(255,255);
-					else if(Line_all_digit > 231 && Line_all_digit < 252) Forward(255, 127);
-					else if(Line_all_digit < 231 && Line_all_digit > 127) Forward(127,255);
-					else if(Line_all_digit < 128) Forward(63,255);
-					else if(Line_all_digit > 251) Forward(255,63);
+					//if(Line_all_digit == 231) Forward(255,255);
+					//else if(Line_all_digit > 231 && Line_all_digit < 252) Forward(255, 127);
+					//else if(Line_all_digit < 231 && Line_all_digit > 127) Forward(127,255);
+					//else 
+					if(Line_all_digit < 128) Forward(160,255);
+					else if(Line_all_digit > 251) Forward(255,160);
 					timer = 1;
 				}
+				else if(linecounter == 1){
+					if(Line_all_digit == 254) Forward(255,155);
+					else if(Line_all_digit == 127) Forward(155,255);
+				}
 				else if(linecounter == 3){
-					if(Line_all_digit == 199) Forward(160,255);
-					else if(Line_all_digit == 227) Forward(255,160);
-					else if(Line_all_digit == 241) Forward(255, 127);
-					else if(Line_all_digit == 143) Forward(127,255);
-					else if(Line_all_digit == 31) Forward(63,255);
-					else if(Line_all_digit == 248) Forward(255,63);
+					if(Line_all_digit == 199) Forward(245,255);
+					else if(Line_all_digit == 227) Forward(255,245);
+					else if(Line_all_digit == 241) Forward(255, 230);
+					else if(Line_all_digit == 143) Forward(230,255);
+					else if(Line_all_digit == 31) Forward(210,255);
+					else if(Line_all_digit == 248) Forward(255,210);
 					timer = 1;
 				}
 				else if(linecounter == 4){
 					if(Line_all_digit == 195) Forward(255,255);
-					else if(Line_all_digit == 135) Forward(170,255);
-					else if(Line_all_digit == 225) Forward(255,170);
-					else if(Line_all_digit == 15) Forward(100,255);
-					else if(Line_all_digit == 240) Forward(255,100);
+					else if(Line_all_digit == 135) Forward(230,255);
+					else if(Line_all_digit == 225) Forward(255,230);
+					else if(Line_all_digit == 15) Forward(215,255);
+					else if(Line_all_digit == 240) Forward(255,215);
 					timer = 1;
 				}
-				else if(linecounter == 0 || (linecounter ==1 && Line_all_digit < 252 && Line_all_digit > 222)){
-					if(timer > 2 && timer < 35){
+				else if(linecounter == 0 && timer != 0 && all_black == false){							//   || (linecounter ==1 && Line_all_digit < 252 && Line_all_digit > 222)
+					if(timer > 0 && timer < 35){
 						Forward(255,255);
 						LED_ON;
 					}
@@ -181,6 +186,12 @@ int main(void) {
 						LED_OFF;
 						Stop();
 					}
+				}
+				else if(linecounter == 0 && all_black == true){
+					cli(); //Clear all interrupts
+					//turn around
+					all_black = false;
+					sei(); //Enable all interrupts
 				}
 				else Stop();
 				}	
@@ -212,6 +223,7 @@ void Data_Visualizer (void) {
 	Data[4] = US_Time_R;
 	Data[6] = Line_L3;
 	Data[7] = Line_R0;
+	Data[9] = timer;
 }
 
 /***************************************************************************************/
