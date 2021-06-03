@@ -18,7 +18,7 @@ while (timer > 0 && timer < 30 && US_Time_L > 24 && US_Time_R > 24){
       black[i] = Analogue_value[i];
       timer = 1;
     }
-    Threshold[i] = (black[i] - white[i]) /2;
+    Threshold[i] = ((black[i] - white[i]) /2) + white[i];
   }
 }
 timer = 0;
