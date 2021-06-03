@@ -22,6 +22,8 @@ Discarded input sections
                 0x00000000        0xa Motor.o
  .text._Z9Turn_lefth
                 0x00000000        0xa Motor.o
+ .text._Z15Data_Visualizerv
+                0x00000000        0x2 Motor.o
  .bss.Line_R0_digit
                 0x00000000        0x1 Motor.o
  .bss.Line_L0_digit
@@ -202,7 +204,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x67e
+.text           0x00000000      0x788
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -315,19 +317,19 @@ END GROUP
  .text._Z4Stopv
                 0x0000033e        0x6 Motor.o
                 0x0000033e                _Z4Stopv
- .text._Z15Data_Visualizerv
-                0x00000344       0x32 Motor.o
-                0x00000344                _Z15Data_Visualizerv
- .text.main     0x00000376      0x2ec Motor.o
-                0x00000376                main
+ .text._Z12kalibrierungv
+                0x00000344      0x106 Motor.o
+                0x00000344                _Z12kalibrierungv
+ .text.main     0x0000044a      0x322 Motor.o
+                0x0000044a                main
  .text.libgcc.div
-                0x00000662       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodqi4.o)
-                0x00000662                __udivmodqi4
-                0x0000067a                . = ALIGN (0x2)
+                0x0000076c       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodqi4.o)
+                0x0000076c                __udivmodqi4
+                0x00000784                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000067a        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x0000067a                _exit
-                0x0000067a                exit
+ .fini9         0x00000784        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000784                _exit
+                0x00000784                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -346,11 +348,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000067a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000784        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000067e                _etext = .
+                0x00000788                _etext = .
 
-.data           0x00800100        0x0 load address 0x0000067e
+.data           0x00800100        0x0 load address 0x00000788
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -362,7 +364,7 @@ END GROUP
                 0x00800100                _edata = .
                 [!provide]                PROVIDE (__data_end, .)
 
-.bss            0x00800100       0x22
+.bss            0x00800100       0x39
                 0x00800100                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -375,48 +377,52 @@ END GROUP
                 0x0080010b        0x1 Motor.o
                 0x0080010b                US_Time_L
  .bss.Threshold
-                0x0080010c        0x1 Motor.o
+                0x0080010c        0x8 Motor.o
                 0x0080010c                Threshold
  .bss.all_black
-                0x0080010d        0x1 Motor.o
-                0x0080010d                all_black
+                0x00800114        0x1 Motor.o
+                0x00800114                all_black
+ .bss.black     0x00800115        0x8 Motor.o
+                0x00800115                black
+ .bss.white     0x0080011d        0x8 Motor.o
+                0x0080011d                white
  .bss.linecounter
-                0x0080010e        0x1 Motor.o
-                0x0080010e                linecounter
+                0x00800125        0x1 Motor.o
+                0x00800125                linecounter
  .bss.Line_all_digit
-                0x0080010f        0x1 Motor.o
-                0x0080010f                Line_all_digit
- .bss.timer     0x00800110        0x1 Motor.o
-                0x00800110                timer
+                0x00800126        0x1 Motor.o
+                0x00800126                Line_all_digit
+ .bss.timer     0x00800127        0x1 Motor.o
+                0x00800127                timer
  .bss.Analogue_value
-                0x00800111        0x8 Motor.o
-                0x00800111                Analogue_value
- .bss.Channel   0x00800119        0x1 Motor.o
-                0x00800119                Channel
+                0x00800128        0x8 Motor.o
+                0x00800128                Analogue_value
+ .bss.Channel   0x00800130        0x1 Motor.o
+                0x00800130                Channel
  .bss.Counter_Transmission_Data
-                0x0080011a        0x1 Motor.o
-                0x0080011a                Counter_Transmission_Data
+                0x00800131        0x1 Motor.o
+                0x00800131                Counter_Transmission_Data
  .bss.Counter_Transmission
-                0x0080011b        0x1 Motor.o
-                0x0080011b                Counter_Transmission
+                0x00800132        0x1 Motor.o
+                0x00800132                Counter_Transmission
  .bss.Counter_US
-                0x0080011c        0x1 Motor.o
-                0x0080011c                Counter_US
- .bss.T2ck      0x0080011d        0x2 Motor.o
-                0x0080011d                T2ck
+                0x00800133        0x1 Motor.o
+                0x00800133                Counter_US
+ .bss.T2ck      0x00800134        0x2 Motor.o
+                0x00800134                T2ck
  .bss.Trans_data
-                0x0080011f        0x3 Motor.o
-                0x0080011f                Trans_data
+                0x00800136        0x3 Motor.o
+                0x00800136                Trans_data
  *(COMMON)
-                0x00800122                PROVIDE (__bss_end, .)
-                0x0000067e                __data_load_start = LOADADDR (.data)
-                0x0000067e                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800139                PROVIDE (__bss_end, .)
+                0x00000788                __data_load_start = LOADADDR (.data)
+                0x00000788                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800122        0x0
+.noinit         0x00800139        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800122                _end = .
+                0x00800139                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -481,42 +487,42 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xa0
+.debug_aranges  0x00000000       0xa8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0xa0 Motor.o
+                0x00000000       0xa8 Motor.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xef6
+.debug_info     0x00000000      0xfc9
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_info    0x000005f4      0x902 Motor.o
+ .debug_info    0x000005f4      0x9d5 Motor.o
 
-.debug_abbrev   0x00000000      0x7a6
+.debug_abbrev   0x00000000      0x7f3
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_abbrev  0x000005a2      0x204 Motor.o
+ .debug_abbrev  0x000005a2      0x251 Motor.o
 
-.debug_line     0x00000000      0x993
+.debug_line     0x00000000      0xa30
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_line    0x00000133      0x860 Motor.o
+ .debug_line    0x00000133      0x8fd Motor.o
 
-.debug_frame    0x00000000      0x1c0
+.debug_frame    0x00000000      0x220
  *(.debug_frame)
- .debug_frame   0x00000000      0x1c0 Motor.o
+ .debug_frame   0x00000000      0x220 Motor.o
 
-.debug_str      0x00000000      0x679
+.debug_str      0x00000000      0x69e
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208      0x471 Motor.o
-                                0x4b9 (size before relaxing)
+ .debug_str     0x00000208      0x496 Motor.o
+                                0x4e4 (size before relaxing)
 
-.debug_loc      0x00000000      0x455
+.debug_loc      0x00000000      0x5f0
  *(.debug_loc)
- .debug_loc     0x00000000      0x455 Motor.o
+ .debug_loc     0x00000000      0x5f0 Motor.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -536,9 +542,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x90
+.debug_ranges   0x00000000       0xb0
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x90 Motor.o
+ .debug_ranges  0x00000000       0xb0 Motor.o
 
 .debug_macro
  *(.debug_macro)

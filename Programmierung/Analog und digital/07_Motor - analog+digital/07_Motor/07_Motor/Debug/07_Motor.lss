@@ -3,31 +3,31 @@
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000006f2  2**0
+  0 .data         00000000  00800100  00800100  000007fc  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000067e  00000000  00000000  00000074  2**1
+  1 .text         00000788  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000022  00800100  00800100  000006f2  2**0
+  2 .bss          00000039  00800100  00800100  000007fc  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000006f2  2**0
+  3 .comment      00000030  00000000  00000000  000007fc  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000724  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000082c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000a0  00000000  00000000  00000764  2**0
+  5 .debug_aranges 000000a8  00000000  00000000  0000086c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000ef6  00000000  00000000  00000804  2**0
+  6 .debug_info   00000fc9  00000000  00000000  00000914  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000007a6  00000000  00000000  000016fa  2**0
+  7 .debug_abbrev 000007f3  00000000  00000000  000018dd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000993  00000000  00000000  00001ea0  2**0
+  8 .debug_line   00000a30  00000000  00000000  000020d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001c0  00000000  00000000  00002834  2**2
+  9 .debug_frame  00000220  00000000  00000000  00002b00  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000679  00000000  00000000  000029f4  2**0
+ 10 .debug_str    0000069e  00000000  00000000  00002d20  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000455  00000000  00000000  0000306d  2**0
+ 11 .debug_loc    000005f0  00000000  00000000  000033be  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000090  00000000  00000000  000034c2  2**0
+ 12 .debug_ranges 000000b0  00000000  00000000  000039ae  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -78,22 +78,22 @@ Disassembly of section .text:
   7c:	1d 92       	st	X+, r1
 
 0000007e <.do_clear_bss_start>:
-  7e:	a2 32       	cpi	r26, 0x22	; 34
+  7e:	a9 33       	cpi	r26, 0x39	; 57
   80:	b2 07       	cpc	r27, r18
   82:	e1 f7       	brne	.-8      	; 0x7c <.do_clear_bss_loop>
-  84:	0e 94 bb 01 	call	0x376	; 0x376 <main>
-  88:	0c 94 3d 03 	jmp	0x67a	; 0x67a <_exit>
+  84:	0e 94 25 02 	call	0x44a	; 0x44a <main>
+  88:	0c 94 c2 03 	jmp	0x784	; 0x784 <_exit>
 
 0000008c <__bad_interrupt>:
   8c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000090 <_Z4Initv>:
-//Turn left on the spot
-void Turn_left (unsigned char velocity) {
-	PWMA = velocity; //Pulswidth modulation, MotorA
-	PWMB = velocity; //MotorB
-	PORTB &= ~(1 << PORTB1); //MotorA
-	PORTB |=  (1 << PORTB0); //MotorB, PORTB 0bxxxxxx01
+
+/***********************************************************************************************/
+//Other functions
+
+//Data beeing transmitted to the Data Visualizer
+void Data_Visualizer (void) {
   90:	8f ef       	ldi	r24, 0xFF	; 255
   92:	84 b9       	out	0x04, r24	; 4
   94:	17 b8       	out	0x07, r1	; 7
@@ -154,19 +154,19 @@ void Turn_left (unsigned char velocity) {
  112:	94 0f       	add	r25, r20
  114:	89 1b       	sub	r24, r25
  116:	80 5d       	subi	r24, 0xD0	; 208
- 118:	80 93 21 01 	sts	0x0121, r24	; 0x800121 <Trans_data+0x2>
+ 118:	80 93 38 01 	sts	0x0138, r24	; 0x800138 <Trans_data+0x2>
  11c:	21 11       	cpse	r18, r1
  11e:	0c c0       	rjmp	.+24     	; 0x138 <_Z29Computing_Transmission_Valuesh+0x5e>
  120:	80 e2       	ldi	r24, 0x20	; 32
- 122:	80 93 1f 01 	sts	0x011F, r24	; 0x80011f <Trans_data>
+ 122:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <Trans_data>
  126:	31 11       	cpse	r19, r1
  128:	03 c0       	rjmp	.+6      	; 0x130 <_Z29Computing_Transmission_Valuesh+0x56>
- 12a:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <Trans_data+0x1>
+ 12a:	80 93 37 01 	sts	0x0137, r24	; 0x800137 <Trans_data+0x1>
  12e:	08 95       	ret
  130:	30 5d       	subi	r19, 0xD0	; 208
- 132:	30 93 20 01 	sts	0x0120, r19	; 0x800120 <Trans_data+0x1>
+ 132:	30 93 37 01 	sts	0x0137, r19	; 0x800137 <Trans_data+0x1>
  136:	08 95       	ret
- 138:	ef e1       	ldi	r30, 0x1F	; 31
+ 138:	e6 e3       	ldi	r30, 0x36	; 54
  13a:	f1 e0       	ldi	r31, 0x01	; 1
  13c:	20 5d       	subi	r18, 0xD0	; 208
  13e:	20 83       	st	Z, r18
@@ -210,7 +210,7 @@ void Turn_left (unsigned char velocity) {
  188:	bf 93       	push	r27
  18a:	ef 93       	push	r30
  18c:	ff 93       	push	r31
- 18e:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <T2ck>
+ 18e:	80 91 34 01 	lds	r24, 0x0134	; 0x800134 <T2ck>
  192:	80 ff       	sbrs	r24, 0
  194:	0b c0       	rjmp	.+22     	; 0x1ac <__vector_9+0x40>
  196:	ea e7       	ldi	r30, 0x7A	; 122
@@ -224,39 +224,39 @@ void Turn_left (unsigned char velocity) {
  1a6:	00 00       	nop
  1a8:	2a 98       	cbi	0x05, 2	; 5
  1aa:	10 c0       	rjmp	.+32     	; 0x1cc <__vector_9+0x60>
- 1ac:	80 91 19 01 	lds	r24, 0x0119	; 0x800119 <Channel>
+ 1ac:	80 91 30 01 	lds	r24, 0x0130	; 0x800130 <Channel>
  1b0:	8f 5f       	subi	r24, 0xFF	; 255
  1b2:	88 30       	cpi	r24, 0x08	; 8
  1b4:	19 f0       	breq	.+6      	; 0x1bc <__vector_9+0x50>
- 1b6:	80 93 19 01 	sts	0x0119, r24	; 0x800119 <Channel>
+ 1b6:	80 93 30 01 	sts	0x0130, r24	; 0x800130 <Channel>
  1ba:	02 c0       	rjmp	.+4      	; 0x1c0 <__vector_9+0x54>
- 1bc:	10 92 19 01 	sts	0x0119, r1	; 0x800119 <Channel>
- 1c0:	80 91 19 01 	lds	r24, 0x0119	; 0x800119 <Channel>
+ 1bc:	10 92 30 01 	sts	0x0130, r1	; 0x800130 <Channel>
+ 1c0:	80 91 30 01 	lds	r24, 0x0130	; 0x800130 <Channel>
  1c4:	80 66       	ori	r24, 0x60	; 96
  1c6:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
  1ca:	2a 9a       	sbi	0x05, 2	; 5
- 1cc:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <T2ck>
- 1d0:	90 91 1e 01 	lds	r25, 0x011E	; 0x80011e <T2ck+0x1>
+ 1cc:	80 91 34 01 	lds	r24, 0x0134	; 0x800134 <T2ck>
+ 1d0:	90 91 35 01 	lds	r25, 0x0135	; 0x800135 <T2ck+0x1>
  1d4:	01 96       	adiw	r24, 0x01	; 1
  1d6:	80 3d       	cpi	r24, 0xD0	; 208
  1d8:	27 e0       	ldi	r18, 0x07	; 7
  1da:	92 07       	cpc	r25, r18
  1dc:	29 f0       	breq	.+10     	; 0x1e8 <__vector_9+0x7c>
- 1de:	90 93 1e 01 	sts	0x011E, r25	; 0x80011e <T2ck+0x1>
- 1e2:	80 93 1d 01 	sts	0x011D, r24	; 0x80011d <T2ck>
+ 1de:	90 93 35 01 	sts	0x0135, r25	; 0x800135 <T2ck+0x1>
+ 1e2:	80 93 34 01 	sts	0x0134, r24	; 0x800134 <T2ck>
  1e6:	04 c0       	rjmp	.+8      	; 0x1f0 <__vector_9+0x84>
- 1e8:	10 92 1e 01 	sts	0x011E, r1	; 0x80011e <T2ck+0x1>
- 1ec:	10 92 1d 01 	sts	0x011D, r1	; 0x80011d <T2ck>
- 1f0:	80 91 1c 01 	lds	r24, 0x011C	; 0x80011c <Counter_US>
+ 1e8:	10 92 35 01 	sts	0x0135, r1	; 0x800135 <T2ck+0x1>
+ 1ec:	10 92 34 01 	sts	0x0134, r1	; 0x800134 <T2ck>
+ 1f0:	80 91 33 01 	lds	r24, 0x0133	; 0x800133 <Counter_US>
  1f4:	8f 5f       	subi	r24, 0xFF	; 255
- 1f6:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <Counter_US>
+ 1f6:	80 93 33 01 	sts	0x0133, r24	; 0x800133 <Counter_US>
  1fa:	81 11       	cpse	r24, r1
  1fc:	15 c0       	rjmp	.+42     	; 0x228 <__vector_9+0xbc>
- 1fe:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <timer>
+ 1fe:	80 91 27 01 	lds	r24, 0x0127	; 0x800127 <timer>
  202:	88 23       	and	r24, r24
  204:	19 f0       	breq	.+6      	; 0x20c <__vector_9+0xa0>
  206:	8f 5f       	subi	r24, 0xFF	; 255
- 208:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <timer>
+ 208:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <timer>
  20c:	8b b1       	in	r24, 0x0b	; 11
  20e:	80 69       	ori	r24, 0x90	; 144
  210:	8b b9       	out	0x0b, r24	; 11
@@ -269,37 +269,37 @@ void Turn_left (unsigned char velocity) {
  21e:	8b b9       	out	0x0b, r24	; 11
  220:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__DATA_REGION_ORIGIN__+0x25>
  224:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__DATA_REGION_ORIGIN__+0x24>
- 228:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <T2ck>
+ 228:	80 91 34 01 	lds	r24, 0x0134	; 0x800134 <T2ck>
  22c:	80 ff       	sbrs	r24, 0
  22e:	2b c0       	rjmp	.+86     	; 0x286 <__vector_9+0x11a>
- 230:	80 91 1b 01 	lds	r24, 0x011B	; 0x80011b <Counter_Transmission>
+ 230:	80 91 32 01 	lds	r24, 0x0132	; 0x800132 <Counter_Transmission>
  234:	8f 5f       	subi	r24, 0xFF	; 255
  236:	84 30       	cpi	r24, 0x04	; 4
  238:	19 f0       	breq	.+6      	; 0x240 <__vector_9+0xd4>
- 23a:	80 93 1b 01 	sts	0x011B, r24	; 0x80011b <Counter_Transmission>
+ 23a:	80 93 32 01 	sts	0x0132, r24	; 0x800132 <Counter_Transmission>
  23e:	15 c0       	rjmp	.+42     	; 0x26a <__vector_9+0xfe>
- 240:	10 92 1b 01 	sts	0x011B, r1	; 0x80011b <Counter_Transmission>
- 244:	80 91 1a 01 	lds	r24, 0x011A	; 0x80011a <Counter_Transmission_Data>
+ 240:	10 92 32 01 	sts	0x0132, r1	; 0x800132 <Counter_Transmission>
+ 244:	80 91 31 01 	lds	r24, 0x0131	; 0x800131 <Counter_Transmission_Data>
  248:	8f 5f       	subi	r24, 0xFF	; 255
- 24a:	80 93 1a 01 	sts	0x011A, r24	; 0x80011a <Counter_Transmission_Data>
+ 24a:	80 93 31 01 	sts	0x0131, r24	; 0x800131 <Counter_Transmission_Data>
  24e:	8a 30       	cpi	r24, 0x0A	; 10
  250:	21 f4       	brne	.+8      	; 0x25a <__vector_9+0xee>
- 252:	10 92 1a 01 	sts	0x011A, r1	; 0x80011a <Counter_Transmission_Data>
+ 252:	10 92 31 01 	sts	0x0131, r1	; 0x800131 <Counter_Transmission_Data>
  256:	0e 94 a3 00 	call	0x146	; 0x146 <_Z14USART_Transmith>
- 25a:	e0 91 1a 01 	lds	r30, 0x011A	; 0x80011a <Counter_Transmission_Data>
+ 25a:	e0 91 31 01 	lds	r30, 0x0131	; 0x800131 <Counter_Transmission_Data>
  25e:	f0 e0       	ldi	r31, 0x00	; 0
  260:	e0 50       	subi	r30, 0x00	; 0
  262:	ff 4f       	sbci	r31, 0xFF	; 255
  264:	80 81       	ld	r24, Z
  266:	0e 94 6d 00 	call	0xda	; 0xda <_Z29Computing_Transmission_Valuesh>
- 26a:	e0 91 1b 01 	lds	r30, 0x011B	; 0x80011b <Counter_Transmission>
+ 26a:	e0 91 32 01 	lds	r30, 0x0132	; 0x800132 <Counter_Transmission>
  26e:	e3 30       	cpi	r30, 0x03	; 3
  270:	21 f4       	brne	.+8      	; 0x27a <__vector_9+0x10e>
  272:	89 e0       	ldi	r24, 0x09	; 9
  274:	0e 94 a3 00 	call	0x146	; 0x146 <_Z14USART_Transmith>
  278:	06 c0       	rjmp	.+12     	; 0x286 <__vector_9+0x11a>
  27a:	f0 e0       	ldi	r31, 0x00	; 0
- 27c:	e1 5e       	subi	r30, 0xE1	; 225
+ 27c:	ea 5c       	subi	r30, 0xCA	; 202
  27e:	fe 4f       	sbci	r31, 0xFE	; 254
  280:	80 81       	ld	r24, Z
  282:	0e 94 a3 00 	call	0x146	; 0x146 <_Z14USART_Transmith>
@@ -377,9 +377,9 @@ void Turn_left (unsigned char velocity) {
  310:	ef 93       	push	r30
  312:	ff 93       	push	r31
  314:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
- 318:	e0 91 19 01 	lds	r30, 0x0119	; 0x800119 <Channel>
+ 318:	e0 91 30 01 	lds	r30, 0x0130	; 0x800130 <Channel>
  31c:	f0 e0       	ldi	r31, 0x00	; 0
- 31e:	ef 5e       	subi	r30, 0xEF	; 239
+ 31e:	e8 5d       	subi	r30, 0xD8	; 216
  320:	fe 4f       	sbci	r31, 0xFE	; 254
  322:	80 83       	st	Z, r24
  324:	ff 91       	pop	r31
@@ -399,515 +399,690 @@ void Turn_left (unsigned char velocity) {
  33c:	08 95       	ret
 
 0000033e <_Z4Stopv>:
-}
-
-//Stop the motors
-void Stop (void) {
-	PWMA = 0; //Velocity = 0
  33e:	17 bc       	out	0x27, r1	; 39
-	PWMB = 0; //Brake low (outputs shorted to ground)
  340:	18 bc       	out	0x28, r1	; 40
  342:	08 95       	ret
 
-00000344 <_Z15Data_Visualizerv>:
-	//Data[7] = Line_R3; //Line sensor right outside
-	//Data[8] = US_Time_L; //Runtime of the US-signal, HI-part of TMR1-value
-	//Data[9] = US_Time_R;
-	//Data[8] = timer;
-	//Data[8] = counter;
-	Data[0] = Line_all_digit;
- 344:	e0 e0       	ldi	r30, 0x00	; 0
- 346:	f1 e0       	ldi	r31, 0x01	; 1
- 348:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <Line_all_digit>
- 34c:	80 83       	st	Z, r24
-	Data[1] = linecounter;
- 34e:	80 91 0e 01 	lds	r24, 0x010E	; 0x80010e <linecounter>
- 352:	81 83       	std	Z+1, r24	; 0x01
-	Data[3] = US_Time_L;
- 354:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <US_Time_L>
- 358:	83 83       	std	Z+3, r24	; 0x03
-	Data[4] = US_Time_R;
- 35a:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <US_Time_R>
- 35e:	84 83       	std	Z+4, r24	; 0x04
-	Data[6] = Line_L3;
- 360:	a1 e1       	ldi	r26, 0x11	; 17
- 362:	b1 e0       	ldi	r27, 0x01	; 1
- 364:	8c 91       	ld	r24, X
- 366:	86 83       	std	Z+6, r24	; 0x06
-	Data[7] = Line_R0;
- 368:	14 96       	adiw	r26, 0x04	; 4
- 36a:	8c 91       	ld	r24, X
- 36c:	87 83       	std	Z+7, r24	; 0x07
-	Data[9] = timer;
- 36e:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <timer>
- 372:	81 87       	std	Z+9, r24	; 0x09
- 374:	08 95       	ret
+00000344 <_Z12kalibrierungv>:
+		//Threshold[i] = ((black[i] - white[i])/2) + white[i];
+	//}
+	//Stop();
+//}
 
-00000376 <main>:
-void Data_Visualizer (void); //Define datas to be vizualized
+void kalibrierung(void){
+ 344:	4f 92       	push	r4
+ 346:	5f 92       	push	r5
+ 348:	6f 92       	push	r6
+ 34a:	7f 92       	push	r7
+ 34c:	8f 92       	push	r8
+ 34e:	9f 92       	push	r9
+ 350:	af 92       	push	r10
+ 352:	bf 92       	push	r11
+ 354:	cf 92       	push	r12
+ 356:	df 92       	push	r13
+ 358:	ef 92       	push	r14
+ 35a:	ff 92       	push	r15
+ 35c:	0f 93       	push	r16
+ 35e:	1f 93       	push	r17
+ 360:	cf 93       	push	r28
+ 362:	df 93       	push	r29
+ 364:	0f 2e       	mov	r0, r31
+ 366:	f8 e2       	ldi	r31, 0x28	; 40
+ 368:	6f 2e       	mov	r6, r31
+ 36a:	f1 e0       	ldi	r31, 0x01	; 1
+ 36c:	7f 2e       	mov	r7, r31
+ 36e:	f0 2d       	mov	r31, r0
+ 370:	0f 2e       	mov	r0, r31
+ 372:	fd e1       	ldi	r31, 0x1D	; 29
+ 374:	af 2e       	mov	r10, r31
+ 376:	f1 e0       	ldi	r31, 0x01	; 1
+ 378:	bf 2e       	mov	r11, r31
+ 37a:	f0 2d       	mov	r31, r0
+ 37c:	05 e1       	ldi	r16, 0x15	; 21
+ 37e:	11 e0       	ldi	r17, 0x01	; 1
+ 380:	0f 2e       	mov	r0, r31
+ 382:	f0 e3       	ldi	r31, 0x30	; 48
+ 384:	ef 2e       	mov	r14, r31
+ 386:	f1 e0       	ldi	r31, 0x01	; 1
+ 388:	ff 2e       	mov	r15, r31
+ 38a:	f0 2d       	mov	r31, r0
+ 38c:	e8 01       	movw	r28, r16
+ 38e:	d5 01       	movw	r26, r10
+ 390:	f3 01       	movw	r30, r6
+	for (unsigned char i = 0; i < 8; i++){
+		white[i] = Analogue_value[i];
+ 392:	81 91       	ld	r24, Z+
+ 394:	8d 93       	st	X+, r24
+		black[i] = Analogue_value[i];
+ 396:	89 93       	st	Y+, r24
+	//}
+	//Stop();
+//}
+
+void kalibrierung(void){
+	for (unsigned char i = 0; i < 8; i++){
+ 398:	ee 15       	cp	r30, r14
+ 39a:	ff 05       	cpc	r31, r15
+ 39c:	d1 f7       	brne	.-12     	; 0x392 <_Z12kalibrierungv+0x4e>
+		white[i] = Analogue_value[i];
+		black[i] = Analogue_value[i];
+	}
+	
+	//slowly driving to detect values
+	Forward((unsigned char) d_L_normal/2,(unsigned char) d_R_normal/2);
+ 39e:	6f e7       	ldi	r22, 0x7F	; 127
+ 3a0:	88 e7       	ldi	r24, 0x78	; 120
+ 3a2:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+
+	timer = 1;
+	while (timer > 0 && timer < 15 && US_Time_L > 20 && US_Time_R > 20){
+ 3a6:	50 91 0b 01 	lds	r21, 0x010B	; 0x80010b <US_Time_L>
+ 3aa:	40 91 0a 01 	lds	r20, 0x010A	; 0x80010a <US_Time_R>
+ 3ae:	dd 24       	eor	r13, r13
+ 3b0:	d3 94       	inc	r13
+		for (unsigned char i = 0; i < 8; i++){
+			if (white[i] > Analogue_value[i]) {
+				white[i] = Analogue_value[i];
+				//if (timer > 10) = 10;
+				timer = 1;
+ 3b2:	cc 24       	eor	r12, r12
+ 3b4:	c3 94       	inc	r12
+ 3b6:	04 c0       	rjmp	.+8      	; 0x3c0 <_Z12kalibrierungv+0x7c>
+	
+	//slowly driving to detect values
+	Forward((unsigned char) d_L_normal/2,(unsigned char) d_R_normal/2);
+
+	timer = 1;
+	while (timer > 0 && timer < 15 && US_Time_L > 20 && US_Time_R > 20){
+ 3b8:	8f ef       	ldi	r24, 0xFF	; 255
+ 3ba:	8d 0d       	add	r24, r13
+ 3bc:	8e 30       	cpi	r24, 0x0E	; 14
+ 3be:	78 f5       	brcc	.+94     	; 0x41e <__LOCK_REGION_LENGTH__+0x1e>
+ 3c0:	55 31       	cpi	r21, 0x15	; 21
+ 3c2:	68 f1       	brcs	.+90     	; 0x41e <__LOCK_REGION_LENGTH__+0x1e>
+ 3c4:	45 31       	cpi	r20, 0x15	; 21
+ 3c6:	58 f1       	brcs	.+86     	; 0x41e <__LOCK_REGION_LENGTH__+0x1e>
+ 3c8:	6c e0       	ldi	r22, 0x0C	; 12
+ 3ca:	71 e0       	ldi	r23, 0x01	; 1
+ 3cc:	d5 01       	movw	r26, r10
+ 3ce:	f8 01       	movw	r30, r16
+ 3d0:	23 01       	movw	r4, r6
+ 3d2:	cd 01       	movw	r24, r26
+		for (unsigned char i = 0; i < 8; i++){
+			if (white[i] > Analogue_value[i]) {
+ 3d4:	e2 01       	movw	r28, r4
+ 3d6:	99 90       	ld	r9, Y+
+ 3d8:	2e 01       	movw	r4, r28
+ 3da:	2c 91       	ld	r18, X
+ 3dc:	92 16       	cp	r9, r18
+ 3de:	10 f4       	brcc	.+4      	; 0x3e4 <_Z12kalibrierungv+0xa0>
+				white[i] = Analogue_value[i];
+ 3e0:	9c 92       	st	X, r9
+				//if (timer > 10) = 10;
+				timer = 1;
+ 3e2:	dc 2c       	mov	r13, r12
+ 3e4:	9f 01       	movw	r18, r30
+			}
+			if (black[i] < Analogue_value[i]){
+ 3e6:	80 80       	ld	r8, Z
+ 3e8:	89 14       	cp	r8, r9
+ 3ea:	10 f4       	brcc	.+4      	; 0x3f0 <_Z12kalibrierungv+0xac>
+				black[i] = Analogue_value[i];
+ 3ec:	90 82       	st	Z, r9
+				//if (timer > 10) = 10;
+				timer = 1;
+ 3ee:	dc 2c       	mov	r13, r12
+ 3f0:	31 96       	adiw	r30, 0x01	; 1
+			}
+			Threshold[i] = ((black[i] - white[i]) /2) + white[i];
+ 3f2:	ec 01       	movw	r28, r24
+ 3f4:	98 80       	ld	r9, Y
+ 3f6:	11 96       	adiw	r26, 0x01	; 1
+ 3f8:	e9 01       	movw	r28, r18
+ 3fa:	28 81       	ld	r18, Y
+ 3fc:	30 e0       	ldi	r19, 0x00	; 0
+ 3fe:	29 19       	sub	r18, r9
+ 400:	31 09       	sbc	r19, r1
+ 402:	c9 01       	movw	r24, r18
+ 404:	99 23       	and	r25, r25
+ 406:	0c f4       	brge	.+2      	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+ 408:	01 96       	adiw	r24, 0x01	; 1
+ 40a:	95 95       	asr	r25
+ 40c:	87 95       	ror	r24
+ 40e:	89 0d       	add	r24, r9
+ 410:	eb 01       	movw	r28, r22
+ 412:	89 93       	st	Y+, r24
+ 414:	be 01       	movw	r22, r28
+	//slowly driving to detect values
+	Forward((unsigned char) d_L_normal/2,(unsigned char) d_R_normal/2);
+
+	timer = 1;
+	while (timer > 0 && timer < 15 && US_Time_L > 20 && US_Time_R > 20){
+		for (unsigned char i = 0; i < 8; i++){
+ 416:	4e 14       	cp	r4, r14
+ 418:	5f 04       	cpc	r5, r15
+ 41a:	d9 f6       	brne	.-74     	; 0x3d2 <_Z12kalibrierungv+0x8e>
+ 41c:	cd cf       	rjmp	.-102    	; 0x3b8 <_Z12kalibrierungv+0x74>
+			}
+			Threshold[i] = ((black[i] - white[i]) /2) + white[i];
+			Data_Visualizer();
+		}
+	}
+	timer = 0;
+ 41e:	10 92 27 01 	sts	0x0127, r1	; 0x800127 <timer>
+	Stop();
+ 422:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
+	LED_ON;
+ 426:	2d 9a       	sbi	0x05, 5	; 5
+}
+ 428:	df 91       	pop	r29
+ 42a:	cf 91       	pop	r28
+ 42c:	1f 91       	pop	r17
+ 42e:	0f 91       	pop	r16
+ 430:	ff 90       	pop	r15
+ 432:	ef 90       	pop	r14
+ 434:	df 90       	pop	r13
+ 436:	cf 90       	pop	r12
+ 438:	bf 90       	pop	r11
+ 43a:	af 90       	pop	r10
+ 43c:	9f 90       	pop	r9
+ 43e:	8f 90       	pop	r8
+ 440:	7f 90       	pop	r7
+ 442:	6f 90       	pop	r6
+ 444:	5f 90       	pop	r5
+ 446:	4f 90       	pop	r4
+ 448:	08 95       	ret
+
+0000044a <main>:
+void kalibrierung(void);
 
 
 //Main routine
 int main(void) {
 	Init(); //Initalize the MC
- 376:	0e 94 48 00 	call	0x90	; 0x90 <_Z4Initv>
+ 44a:	0e 94 48 00 	call	0x90	; 0x90 <_Z4Initv>
 	USART_Init(MYUBRR); //Transmision/reception initialize
- 37a:	8c e0       	ldi	r24, 0x0C	; 12
- 37c:	90 e0       	ldi	r25, 0x00	; 0
- 37e:	0e 94 ab 00 	call	0x156	; 0x156 <_Z10USART_Initj>
+ 44e:	8c e0       	ldi	r24, 0x0C	; 12
+ 450:	90 e0       	ldi	r25, 0x00	; 0
+ 452:	0e 94 ab 00 	call	0x156	; 0x156 <_Z10USART_Initj>
 	sei(); //Enable all interrupts
- 382:	78 94       	sei
+ 456:	78 94       	sei
 	//cli(); //Clear all interrupts
 	Stop();
- 384:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
+ 458:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 388:	2f ef       	ldi	r18, 0xFF	; 255
- 38a:	83 ed       	ldi	r24, 0xD3	; 211
- 38c:	90 e3       	ldi	r25, 0x30	; 48
- 38e:	21 50       	subi	r18, 0x01	; 1
- 390:	80 40       	sbci	r24, 0x00	; 0
- 392:	90 40       	sbci	r25, 0x00	; 0
- 394:	e1 f7       	brne	.-8      	; 0x38e <main+0x18>
- 396:	00 c0       	rjmp	.+0      	; 0x398 <main+0x22>
- 398:	00 00       	nop
+ 45c:	2f ef       	ldi	r18, 0xFF	; 255
+ 45e:	83 ed       	ldi	r24, 0xD3	; 211
+ 460:	90 e3       	ldi	r25, 0x30	; 48
+ 462:	21 50       	subi	r18, 0x01	; 1
+ 464:	80 40       	sbci	r24, 0x00	; 0
+ 466:	90 40       	sbci	r25, 0x00	; 0
+ 468:	e1 f7       	brne	.-8      	; 0x462 <main+0x18>
+ 46a:	00 c0       	rjmp	.+0      	; 0x46c <main+0x22>
+ 46c:	00 00       	nop
 	_delay_ms(1000);
-	//char Motor_Left = 185; //Normal PWM parameter for...
-	//char Motor_Right = 192; //...driving straight on
-	Threshold = 100;	
- 39a:	84 e6       	ldi	r24, 0x64	; 100
- 39c:	80 93 0c 01 	sts	0x010C, r24	; 0x80010c <Threshold>
+	kalibrierung();
+ 46e:	0e 94 a2 01 	call	0x344	; 0x344 <_Z12kalibrierungv>
+ 472:	ef ef       	ldi	r30, 0xFF	; 255
+ 474:	f1 ee       	ldi	r31, 0xE1	; 225
+ 476:	24 e0       	ldi	r18, 0x04	; 4
+ 478:	e1 50       	subi	r30, 0x01	; 1
+ 47a:	f0 40       	sbci	r31, 0x00	; 0
+ 47c:	20 40       	sbci	r18, 0x00	; 0
+ 47e:	e1 f7       	brne	.-8      	; 0x478 <main+0x2e>
+ 480:	00 c0       	rjmp	.+0      	; 0x482 <main+0x38>
+ 482:	00 00       	nop
 	
 	while (1) {
 		Data_Visualizer(); //Define the values to be displayed
 		
 		Line_all_digit = 0b00000000; //set all line-values to 0
 		linecounter = 8;
- 3a0:	18 e0       	ldi	r17, 0x08	; 8
-		if(Line_L3 < Threshold){
- 3a2:	c1 e1       	ldi	r28, 0x11	; 17
- 3a4:	d1 e0       	ldi	r29, 0x01	; 1
+ 484:	68 94       	set
+ 486:	ff 24       	eor	r15, r15
+ 488:	f3 f8       	bld	r15, 3
+		if(Line_L3 < Threshold[0]){
+ 48a:	08 e2       	ldi	r16, 0x28	; 40
+ 48c:	11 e0       	ldi	r17, 0x01	; 1
+ 48e:	cc e0       	ldi	r28, 0x0C	; 12
+ 490:	d1 e0       	ldi	r29, 0x01	; 1
 			 Line_all_digit |= 0b10000000;
- 3a6:	68 94       	set
- 3a8:	ff 24       	eor	r15, r15
- 3aa:	f7 f8       	bld	r15, 7
+ 492:	68 94       	set
+ 494:	dd 24       	eor	r13, r13
+ 496:	d7 f8       	bld	r13, 7
 			 linecounter--;
- 3ac:	07 e0       	ldi	r16, 0x07	; 7
+ 498:	0f 2e       	mov	r0, r31
+ 49a:	f7 e0       	ldi	r31, 0x07	; 7
+ 49c:	ef 2e       	mov	r14, r31
+ 49e:	f0 2d       	mov	r31, r0
 		}
-		if(Line_R3 < Threshold){
+		if(Line_R3 < Threshold[7]){
 			Line_all_digit |= 0b00000001;
 			linecounter--;
 		} //if right sensor sees white set right bit to 1
 		if(linecounter == 8) all_black = true;
- 3ae:	ee 24       	eor	r14, r14
- 3b0:	e3 94       	inc	r14
+ 4a0:	cc 24       	eor	r12, r12
+ 4a2:	c3 94       	inc	r12
 					 if((Line_L1 - Line_R1) > 14) Forward((210+(45*(Line_R1/Line_L1))),255);
 					 else Forward(255,255);
 					 timer = 1;
 				}
 				else{
 					 if((Line_R1 - Line_L1) > 14) Forward(255,(210+(45*(Line_L1/Line_R1))));
- 3b2:	0f 2e       	mov	r0, r31
- 3b4:	fd e2       	ldi	r31, 0x2D	; 45
- 3b6:	df 2e       	mov	r13, r31
- 3b8:	f0 2d       	mov	r31, r0
-	//char Motor_Right = 192; //...driving straight on
-	Threshold = 100;	
+ 4a4:	0f 2e       	mov	r0, r31
+ 4a6:	fd e2       	ldi	r31, 0x2D	; 45
+ 4a8:	bf 2e       	mov	r11, r31
+ 4aa:	f0 2d       	mov	r31, r0
 	
 	
 	while (1) {
 		Data_Visualizer(); //Define the values to be displayed
- 3ba:	0e 94 a2 01 	call	0x344	; 0x344 <_Z15Data_Visualizerv>
 		
 		Line_all_digit = 0b00000000; //set all line-values to 0
- 3be:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <Line_all_digit>
+ 4ac:	10 92 26 01 	sts	0x0126, r1	; 0x800126 <Line_all_digit>
 		linecounter = 8;
- 3c2:	10 93 0e 01 	sts	0x010E, r17	; 0x80010e <linecounter>
-		if(Line_L3 < Threshold){
- 3c6:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <Threshold>
- 3ca:	98 81       	ld	r25, Y
- 3cc:	98 17       	cp	r25, r24
- 3ce:	20 f4       	brcc	.+8      	; 0x3d8 <main+0x62>
+ 4b0:	f0 92 25 01 	sts	0x0125, r15	; 0x800125 <linecounter>
+		if(Line_L3 < Threshold[0]){
+ 4b4:	f8 01       	movw	r30, r16
+ 4b6:	90 81       	ld	r25, Z
+ 4b8:	88 81       	ld	r24, Y
+ 4ba:	98 17       	cp	r25, r24
+ 4bc:	20 f4       	brcc	.+8      	; 0x4c6 <main+0x7c>
 			 Line_all_digit |= 0b10000000;
- 3d0:	f0 92 0f 01 	sts	0x010F, r15	; 0x80010f <Line_all_digit>
+ 4be:	d0 92 26 01 	sts	0x0126, r13	; 0x800126 <Line_all_digit>
 			 linecounter--;
- 3d4:	00 93 0e 01 	sts	0x010E, r16	; 0x80010e <linecounter>
+ 4c2:	e0 92 25 01 	sts	0x0125, r14	; 0x800125 <linecounter>
 		} //if left sensor sees white set left bit to 1
-		if(Line_L2 < Threshold){
- 3d8:	99 81       	ldd	r25, Y+1	; 0x01
- 3da:	98 17       	cp	r25, r24
- 3dc:	50 f4       	brcc	.+20     	; 0x3f2 <main+0x7c>
+		if(Line_L2 < Threshold[1]){
+ 4c6:	f8 01       	movw	r30, r16
+ 4c8:	91 81       	ldd	r25, Z+1	; 0x01
+ 4ca:	89 81       	ldd	r24, Y+1	; 0x01
+ 4cc:	98 17       	cp	r25, r24
+ 4ce:	50 f4       	brcc	.+20     	; 0x4e4 <main+0x9a>
 			Line_all_digit |= 0b01000000;
- 3de:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <Line_all_digit>
- 3e2:	90 64       	ori	r25, 0x40	; 64
- 3e4:	90 93 0f 01 	sts	0x010F, r25	; 0x80010f <Line_all_digit>
+ 4d0:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 4d4:	80 64       	ori	r24, 0x40	; 64
+ 4d6:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 3e8:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <linecounter>
- 3ec:	91 50       	subi	r25, 0x01	; 1
- 3ee:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <linecounter>
+ 4da:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 4de:	81 50       	subi	r24, 0x01	; 1
+ 4e0:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_L1 < Threshold){
- 3f2:	6a 81       	ldd	r22, Y+2	; 0x02
- 3f4:	68 17       	cp	r22, r24
- 3f6:	50 f4       	brcc	.+20     	; 0x40c <__LOCK_REGION_LENGTH__+0xc>
+		if(Line_L1 < Threshold[2]){
+ 4e4:	f8 01       	movw	r30, r16
+ 4e6:	62 81       	ldd	r22, Z+2	; 0x02
+ 4e8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 4ea:	68 17       	cp	r22, r24
+ 4ec:	50 f4       	brcc	.+20     	; 0x502 <main+0xb8>
 			 Line_all_digit |= 0b00100000;
- 3f8:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <Line_all_digit>
- 3fc:	90 62       	ori	r25, 0x20	; 32
- 3fe:	90 93 0f 01 	sts	0x010F, r25	; 0x80010f <Line_all_digit>
+ 4ee:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 4f2:	80 62       	ori	r24, 0x20	; 32
+ 4f4:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			 linecounter--;
- 402:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <linecounter>
- 406:	91 50       	subi	r25, 0x01	; 1
- 408:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <linecounter>
+ 4f8:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 4fc:	81 50       	subi	r24, 0x01	; 1
+ 4fe:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_L0 < Threshold){ 
- 40c:	9b 81       	ldd	r25, Y+3	; 0x03
- 40e:	98 17       	cp	r25, r24
- 410:	50 f4       	brcc	.+20     	; 0x426 <__LOCK_REGION_LENGTH__+0x26>
+		if(Line_L0 < Threshold[3]){ 
+ 502:	f8 01       	movw	r30, r16
+ 504:	93 81       	ldd	r25, Z+3	; 0x03
+ 506:	8b 81       	ldd	r24, Y+3	; 0x03
+ 508:	98 17       	cp	r25, r24
+ 50a:	50 f4       	brcc	.+20     	; 0x520 <main+0xd6>
 			Line_all_digit |= 0b00010000;
- 412:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <Line_all_digit>
- 416:	90 61       	ori	r25, 0x10	; 16
- 418:	90 93 0f 01 	sts	0x010F, r25	; 0x80010f <Line_all_digit>
+ 50c:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 510:	80 61       	ori	r24, 0x10	; 16
+ 512:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 41c:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <linecounter>
- 420:	91 50       	subi	r25, 0x01	; 1
- 422:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <linecounter>
+ 516:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 51a:	81 50       	subi	r24, 0x01	; 1
+ 51c:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_R0 < Threshold){
- 426:	9c 81       	ldd	r25, Y+4	; 0x04
- 428:	98 17       	cp	r25, r24
- 42a:	50 f4       	brcc	.+20     	; 0x440 <__LOCK_REGION_LENGTH__+0x40>
+		if(Line_R0 < Threshold[4]){
+ 520:	f8 01       	movw	r30, r16
+ 522:	94 81       	ldd	r25, Z+4	; 0x04
+ 524:	8c 81       	ldd	r24, Y+4	; 0x04
+ 526:	98 17       	cp	r25, r24
+ 528:	50 f4       	brcc	.+20     	; 0x53e <main+0xf4>
 			Line_all_digit |= 0b00001000;
- 42c:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <Line_all_digit>
- 430:	98 60       	ori	r25, 0x08	; 8
- 432:	90 93 0f 01 	sts	0x010F, r25	; 0x80010f <Line_all_digit>
+ 52a:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 52e:	88 60       	ori	r24, 0x08	; 8
+ 530:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 436:	90 91 0e 01 	lds	r25, 0x010E	; 0x80010e <linecounter>
- 43a:	91 50       	subi	r25, 0x01	; 1
- 43c:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <linecounter>
+ 534:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 538:	81 50       	subi	r24, 0x01	; 1
+ 53a:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_R1 < Threshold){
- 440:	9d 81       	ldd	r25, Y+5	; 0x05
- 442:	98 17       	cp	r25, r24
- 444:	50 f4       	brcc	.+20     	; 0x45a <__LOCK_REGION_LENGTH__+0x5a>
+		if(Line_R1 < Threshold[5]){
+ 53e:	f8 01       	movw	r30, r16
+ 540:	95 81       	ldd	r25, Z+5	; 0x05
+ 542:	8d 81       	ldd	r24, Y+5	; 0x05
+ 544:	98 17       	cp	r25, r24
+ 546:	50 f4       	brcc	.+20     	; 0x55c <main+0x112>
 			Line_all_digit |= 0b00000100;
- 446:	20 91 0f 01 	lds	r18, 0x010F	; 0x80010f <Line_all_digit>
- 44a:	24 60       	ori	r18, 0x04	; 4
- 44c:	20 93 0f 01 	sts	0x010F, r18	; 0x80010f <Line_all_digit>
+ 548:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 54c:	84 60       	ori	r24, 0x04	; 4
+ 54e:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 450:	20 91 0e 01 	lds	r18, 0x010E	; 0x80010e <linecounter>
- 454:	21 50       	subi	r18, 0x01	; 1
- 456:	20 93 0e 01 	sts	0x010E, r18	; 0x80010e <linecounter>
+ 552:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 556:	81 50       	subi	r24, 0x01	; 1
+ 558:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_R2 < Threshold){
- 45a:	2e 81       	ldd	r18, Y+6	; 0x06
- 45c:	28 17       	cp	r18, r24
- 45e:	50 f4       	brcc	.+20     	; 0x474 <__LOCK_REGION_LENGTH__+0x74>
+		if(Line_R2 < Threshold[6]){
+ 55c:	f8 01       	movw	r30, r16
+ 55e:	26 81       	ldd	r18, Z+6	; 0x06
+ 560:	8e 81       	ldd	r24, Y+6	; 0x06
+ 562:	28 17       	cp	r18, r24
+ 564:	50 f4       	brcc	.+20     	; 0x57a <main+0x130>
 			Line_all_digit |= 0b00000010;
- 460:	20 91 0f 01 	lds	r18, 0x010F	; 0x80010f <Line_all_digit>
- 464:	22 60       	ori	r18, 0x02	; 2
- 466:	20 93 0f 01 	sts	0x010F, r18	; 0x80010f <Line_all_digit>
+ 566:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 56a:	82 60       	ori	r24, 0x02	; 2
+ 56c:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 46a:	20 91 0e 01 	lds	r18, 0x010E	; 0x80010e <linecounter>
- 46e:	21 50       	subi	r18, 0x01	; 1
- 470:	20 93 0e 01 	sts	0x010E, r18	; 0x80010e <linecounter>
+ 570:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 574:	81 50       	subi	r24, 0x01	; 1
+ 576:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		}
-		if(Line_R3 < Threshold){
- 474:	2f 81       	ldd	r18, Y+7	; 0x07
- 476:	28 17       	cp	r18, r24
- 478:	50 f4       	brcc	.+20     	; 0x48e <__LOCK_REGION_LENGTH__+0x8e>
+		if(Line_R3 < Threshold[7]){
+ 57a:	f8 01       	movw	r30, r16
+ 57c:	27 81       	ldd	r18, Z+7	; 0x07
+ 57e:	8f 81       	ldd	r24, Y+7	; 0x07
+ 580:	28 17       	cp	r18, r24
+ 582:	50 f4       	brcc	.+20     	; 0x598 <main+0x14e>
 			Line_all_digit |= 0b00000001;
- 47a:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <Line_all_digit>
- 47e:	81 60       	ori	r24, 0x01	; 1
- 480:	80 93 0f 01 	sts	0x010F, r24	; 0x80010f <Line_all_digit>
+ 584:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <Line_all_digit>
+ 588:	81 60       	ori	r24, 0x01	; 1
+ 58a:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <Line_all_digit>
 			linecounter--;
- 484:	80 91 0e 01 	lds	r24, 0x010E	; 0x80010e <linecounter>
- 488:	81 50       	subi	r24, 0x01	; 1
- 48a:	80 93 0e 01 	sts	0x010E, r24	; 0x80010e <linecounter>
+ 58e:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 592:	81 50       	subi	r24, 0x01	; 1
+ 594:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <linecounter>
 		} //if right sensor sees white set right bit to 1
 		if(linecounter == 8) all_black = true;
- 48e:	80 91 0e 01 	lds	r24, 0x010E	; 0x80010e <linecounter>
- 492:	88 30       	cpi	r24, 0x08	; 8
- 494:	11 f4       	brne	.+4      	; 0x49a <__LOCK_REGION_LENGTH__+0x9a>
- 496:	e0 92 0d 01 	sts	0x010D, r14	; 0x80010d <all_black>
+ 598:	80 91 25 01 	lds	r24, 0x0125	; 0x800125 <linecounter>
+ 59c:	88 30       	cpi	r24, 0x08	; 8
+ 59e:	11 f4       	brne	.+4      	; 0x5a4 <main+0x15a>
+ 5a0:	c0 92 14 01 	sts	0x0114, r12	; 0x800114 <all_black>
 		
 		if(US_Time_L < 25 || US_Time_R < 25) Stop();  //|| US_Time_R < 22
- 49a:	20 91 0b 01 	lds	r18, 0x010B	; 0x80010b <US_Time_L>
- 49e:	29 31       	cpi	r18, 0x19	; 25
- 4a0:	20 f0       	brcs	.+8      	; 0x4aa <__LOCK_REGION_LENGTH__+0xaa>
- 4a2:	20 91 0a 01 	lds	r18, 0x010A	; 0x80010a <US_Time_R>
- 4a6:	29 31       	cpi	r18, 0x19	; 25
- 4a8:	18 f4       	brcc	.+6      	; 0x4b0 <__LOCK_REGION_LENGTH__+0xb0>
- 4aa:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
- 4ae:	85 cf       	rjmp	.-246    	; 0x3ba <main+0x44>
+ 5a4:	20 91 0b 01 	lds	r18, 0x010B	; 0x80010b <US_Time_L>
+ 5a8:	29 31       	cpi	r18, 0x19	; 25
+ 5aa:	20 f0       	brcs	.+8      	; 0x5b4 <main+0x16a>
+ 5ac:	20 91 0a 01 	lds	r18, 0x010A	; 0x80010a <US_Time_R>
+ 5b0:	29 31       	cpi	r18, 0x19	; 25
+ 5b2:	18 f4       	brcc	.+6      	; 0x5ba <main+0x170>
+ 5b4:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
+ 5b8:	79 cf       	rjmp	.-270    	; 0x4ac <main+0x62>
 		else{
 			if((Line_all_digit & 0b11000011) == 0b11000011 && linecounter != 0){ //detect if lines only on inner sensors
- 4b0:	20 91 0f 01 	lds	r18, 0x010F	; 0x80010f <Line_all_digit>
- 4b4:	32 2f       	mov	r19, r18
- 4b6:	33 7c       	andi	r19, 0xC3	; 195
- 4b8:	33 3c       	cpi	r19, 0xC3	; 195
- 4ba:	c1 f5       	brne	.+112    	; 0x52c <__LOCK_REGION_LENGTH__+0x12c>
- 4bc:	88 23       	and	r24, r24
- 4be:	09 f4       	brne	.+2      	; 0x4c2 <__LOCK_REGION_LENGTH__+0xc2>
- 4c0:	af c0       	rjmp	.+350    	; 0x620 <__LOCK_REGION_LENGTH__+0x220>
+ 5ba:	20 91 26 01 	lds	r18, 0x0126	; 0x800126 <Line_all_digit>
+ 5be:	32 2f       	mov	r19, r18
+ 5c0:	33 7c       	andi	r19, 0xC3	; 195
+ 5c2:	33 3c       	cpi	r19, 0xC3	; 195
+ 5c4:	c1 f5       	brne	.+112    	; 0x636 <main+0x1ec>
+ 5c6:	88 23       	and	r24, r24
+ 5c8:	09 f4       	brne	.+2      	; 0x5cc <main+0x182>
+ 5ca:	af c0       	rjmp	.+350    	; 0x72a <main+0x2e0>
 				if(Line_L1 > Line_R1){
- 4c2:	96 17       	cp	r25, r22
- 4c4:	c8 f4       	brcc	.+50     	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
+ 5cc:	96 17       	cp	r25, r22
+ 5ce:	c8 f4       	brcc	.+50     	; 0x602 <main+0x1b8>
 					 if((Line_L1 - Line_R1) > 14) Forward((210+(45*(Line_R1/Line_L1))),255);
- 4c6:	26 2f       	mov	r18, r22
- 4c8:	30 e0       	ldi	r19, 0x00	; 0
- 4ca:	29 1b       	sub	r18, r25
- 4cc:	31 09       	sbc	r19, r1
- 4ce:	2f 30       	cpi	r18, 0x0F	; 15
- 4d0:	31 05       	cpc	r19, r1
- 4d2:	5c f0       	brlt	.+22     	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
- 4d4:	89 2f       	mov	r24, r25
- 4d6:	0e 94 31 03 	call	0x662	; 0x662 <__udivmodqi4>
- 4da:	8d 9d       	mul	r24, r13
- 4dc:	80 2d       	mov	r24, r0
- 4de:	11 24       	eor	r1, r1
- 4e0:	6f ef       	ldi	r22, 0xFF	; 255
- 4e2:	8e 52       	subi	r24, 0x2E	; 46
- 4e4:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 4e8:	04 c0       	rjmp	.+8      	; 0x4f2 <__LOCK_REGION_LENGTH__+0xf2>
+ 5d0:	26 2f       	mov	r18, r22
+ 5d2:	30 e0       	ldi	r19, 0x00	; 0
+ 5d4:	29 1b       	sub	r18, r25
+ 5d6:	31 09       	sbc	r19, r1
+ 5d8:	2f 30       	cpi	r18, 0x0F	; 15
+ 5da:	31 05       	cpc	r19, r1
+ 5dc:	5c f0       	brlt	.+22     	; 0x5f4 <main+0x1aa>
+ 5de:	89 2f       	mov	r24, r25
+ 5e0:	0e 94 b6 03 	call	0x76c	; 0x76c <__udivmodqi4>
+ 5e4:	8b 9d       	mul	r24, r11
+ 5e6:	80 2d       	mov	r24, r0
+ 5e8:	11 24       	eor	r1, r1
+ 5ea:	6f ef       	ldi	r22, 0xFF	; 255
+ 5ec:	8e 52       	subi	r24, 0x2E	; 46
+ 5ee:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 5f2:	04 c0       	rjmp	.+8      	; 0x5fc <main+0x1b2>
 					 else Forward(255,255);
- 4ea:	6f ef       	ldi	r22, 0xFF	; 255
- 4ec:	8f ef       	ldi	r24, 0xFF	; 255
- 4ee:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 5f4:	6f ef       	ldi	r22, 0xFF	; 255
+ 5f6:	8f ef       	ldi	r24, 0xFF	; 255
+ 5f8:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 					 timer = 1;
- 4f2:	e0 92 10 01 	sts	0x0110, r14	; 0x800110 <timer>
- 4f6:	61 cf       	rjmp	.-318    	; 0x3ba <main+0x44>
+ 5fc:	c0 92 27 01 	sts	0x0127, r12	; 0x800127 <timer>
+ 600:	55 cf       	rjmp	.-342    	; 0x4ac <main+0x62>
 				}
 				else{
 					 if((Line_R1 - Line_L1) > 14) Forward(255,(210+(45*(Line_L1/Line_R1))));
- 4f8:	29 2f       	mov	r18, r25
- 4fa:	30 e0       	ldi	r19, 0x00	; 0
- 4fc:	26 1b       	sub	r18, r22
- 4fe:	31 09       	sbc	r19, r1
- 500:	2f 30       	cpi	r18, 0x0F	; 15
- 502:	31 05       	cpc	r19, r1
- 504:	64 f0       	brlt	.+24     	; 0x51e <__LOCK_REGION_LENGTH__+0x11e>
- 506:	86 2f       	mov	r24, r22
- 508:	69 2f       	mov	r22, r25
- 50a:	0e 94 31 03 	call	0x662	; 0x662 <__udivmodqi4>
- 50e:	8d 9d       	mul	r24, r13
- 510:	60 2d       	mov	r22, r0
- 512:	11 24       	eor	r1, r1
- 514:	6e 52       	subi	r22, 0x2E	; 46
- 516:	8f ef       	ldi	r24, 0xFF	; 255
- 518:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 51c:	04 c0       	rjmp	.+8      	; 0x526 <__LOCK_REGION_LENGTH__+0x126>
+ 602:	29 2f       	mov	r18, r25
+ 604:	30 e0       	ldi	r19, 0x00	; 0
+ 606:	26 1b       	sub	r18, r22
+ 608:	31 09       	sbc	r19, r1
+ 60a:	2f 30       	cpi	r18, 0x0F	; 15
+ 60c:	31 05       	cpc	r19, r1
+ 60e:	64 f0       	brlt	.+24     	; 0x628 <main+0x1de>
+ 610:	86 2f       	mov	r24, r22
+ 612:	69 2f       	mov	r22, r25
+ 614:	0e 94 b6 03 	call	0x76c	; 0x76c <__udivmodqi4>
+ 618:	8b 9d       	mul	r24, r11
+ 61a:	60 2d       	mov	r22, r0
+ 61c:	11 24       	eor	r1, r1
+ 61e:	6e 52       	subi	r22, 0x2E	; 46
+ 620:	8f ef       	ldi	r24, 0xFF	; 255
+ 622:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 626:	04 c0       	rjmp	.+8      	; 0x630 <main+0x1e6>
 					 else Forward(255,255);
- 51e:	6f ef       	ldi	r22, 0xFF	; 255
- 520:	8f ef       	ldi	r24, 0xFF	; 255
- 522:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 628:	6f ef       	ldi	r22, 0xFF	; 255
+ 62a:	8f ef       	ldi	r24, 0xFF	; 255
+ 62c:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 					 timer = 1;
- 526:	e0 92 10 01 	sts	0x0110, r14	; 0x800110 <timer>
- 52a:	47 cf       	rjmp	.-370    	; 0x3ba <main+0x44>
+ 630:	c0 92 27 01 	sts	0x0127, r12	; 0x800127 <timer>
+ 634:	3b cf       	rjmp	.-394    	; 0x4ac <main+0x62>
 				}
 			}
 			else{
 				if(linecounter == 2){
- 52c:	82 30       	cpi	r24, 0x02	; 2
- 52e:	81 f4       	brne	.+32     	; 0x550 <__LOCK_REGION_LENGTH__+0x150>
+ 636:	82 30       	cpi	r24, 0x02	; 2
+ 638:	81 f4       	brne	.+32     	; 0x65a <main+0x210>
 					//if(Line_all_digit == 231) Forward(255,255);
 					//else if(Line_all_digit > 231 && Line_all_digit < 252) Forward(255, 127);
 					//else if(Line_all_digit < 231 && Line_all_digit > 127) Forward(127,255);
 					//else 
 					if(Line_all_digit < 128) Forward(160,255);
- 530:	22 23       	and	r18, r18
- 532:	2c f0       	brlt	.+10     	; 0x53e <__LOCK_REGION_LENGTH__+0x13e>
- 534:	6f ef       	ldi	r22, 0xFF	; 255
- 536:	80 ea       	ldi	r24, 0xA0	; 160
- 538:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 53c:	06 c0       	rjmp	.+12     	; 0x54a <__LOCK_REGION_LENGTH__+0x14a>
+ 63a:	22 23       	and	r18, r18
+ 63c:	2c f0       	brlt	.+10     	; 0x648 <main+0x1fe>
+ 63e:	6f ef       	ldi	r22, 0xFF	; 255
+ 640:	80 ea       	ldi	r24, 0xA0	; 160
+ 642:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 646:	06 c0       	rjmp	.+12     	; 0x654 <main+0x20a>
 					else if(Line_all_digit > 251) Forward(255,160);
- 53e:	2c 3f       	cpi	r18, 0xFC	; 252
- 540:	20 f0       	brcs	.+8      	; 0x54a <__LOCK_REGION_LENGTH__+0x14a>
- 542:	60 ea       	ldi	r22, 0xA0	; 160
- 544:	8f ef       	ldi	r24, 0xFF	; 255
- 546:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 648:	2c 3f       	cpi	r18, 0xFC	; 252
+ 64a:	20 f0       	brcs	.+8      	; 0x654 <main+0x20a>
+ 64c:	60 ea       	ldi	r22, 0xA0	; 160
+ 64e:	8f ef       	ldi	r24, 0xFF	; 255
+ 650:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 					timer = 1;
- 54a:	e0 92 10 01 	sts	0x0110, r14	; 0x800110 <timer>
- 54e:	35 cf       	rjmp	.-406    	; 0x3ba <main+0x44>
+ 654:	c0 92 27 01 	sts	0x0127, r12	; 0x800127 <timer>
+ 658:	29 cf       	rjmp	.-430    	; 0x4ac <main+0x62>
 				}
 				else if(linecounter == 1){
- 550:	81 30       	cpi	r24, 0x01	; 1
- 552:	79 f4       	brne	.+30     	; 0x572 <__LOCK_REGION_LENGTH__+0x172>
-					if(Line_all_digit == 254) Forward(255,155);
- 554:	2e 3f       	cpi	r18, 0xFE	; 254
- 556:	29 f4       	brne	.+10     	; 0x562 <__LOCK_REGION_LENGTH__+0x162>
- 558:	6b e9       	ldi	r22, 0x9B	; 155
- 55a:	8f ef       	ldi	r24, 0xFF	; 255
- 55c:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 560:	2c cf       	rjmp	.-424    	; 0x3ba <main+0x44>
-					else if(Line_all_digit == 127) Forward(155,255);
- 562:	2f 37       	cpi	r18, 0x7F	; 127
- 564:	09 f0       	breq	.+2      	; 0x568 <__LOCK_REGION_LENGTH__+0x168>
- 566:	29 cf       	rjmp	.-430    	; 0x3ba <main+0x44>
- 568:	6f ef       	ldi	r22, 0xFF	; 255
- 56a:	8b e9       	ldi	r24, 0x9B	; 155
- 56c:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 570:	24 cf       	rjmp	.-440    	; 0x3ba <main+0x44>
+ 65a:	81 30       	cpi	r24, 0x01	; 1
+ 65c:	79 f4       	brne	.+30     	; 0x67c <main+0x232>
+					if(Line_all_digit == 254) Forward(255,140);
+ 65e:	2e 3f       	cpi	r18, 0xFE	; 254
+ 660:	29 f4       	brne	.+10     	; 0x66c <main+0x222>
+ 662:	6c e8       	ldi	r22, 0x8C	; 140
+ 664:	8f ef       	ldi	r24, 0xFF	; 255
+ 666:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 66a:	20 cf       	rjmp	.-448    	; 0x4ac <main+0x62>
+					else if(Line_all_digit == 127) Forward(140,255);
+ 66c:	2f 37       	cpi	r18, 0x7F	; 127
+ 66e:	09 f0       	breq	.+2      	; 0x672 <main+0x228>
+ 670:	1d cf       	rjmp	.-454    	; 0x4ac <main+0x62>
+ 672:	6f ef       	ldi	r22, 0xFF	; 255
+ 674:	8c e8       	ldi	r24, 0x8C	; 140
+ 676:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 67a:	18 cf       	rjmp	.-464    	; 0x4ac <main+0x62>
 				}
 				else if(linecounter == 3){
- 572:	83 30       	cpi	r24, 0x03	; 3
- 574:	61 f5       	brne	.+88     	; 0x5ce <__LOCK_REGION_LENGTH__+0x1ce>
-					if(Line_all_digit == 199) Forward(245,255);
- 576:	27 3c       	cpi	r18, 0xC7	; 199
- 578:	29 f4       	brne	.+10     	; 0x584 <__LOCK_REGION_LENGTH__+0x184>
- 57a:	6f ef       	ldi	r22, 0xFF	; 255
- 57c:	85 ef       	ldi	r24, 0xF5	; 245
- 57e:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 582:	22 c0       	rjmp	.+68     	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
-					else if(Line_all_digit == 227) Forward(255,245);
- 584:	23 3e       	cpi	r18, 0xE3	; 227
- 586:	29 f4       	brne	.+10     	; 0x592 <__LOCK_REGION_LENGTH__+0x192>
- 588:	65 ef       	ldi	r22, 0xF5	; 245
- 58a:	8f ef       	ldi	r24, 0xFF	; 255
- 58c:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 590:	1b c0       	rjmp	.+54     	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
-					else if(Line_all_digit == 241) Forward(255, 230);
- 592:	21 3f       	cpi	r18, 0xF1	; 241
- 594:	29 f4       	brne	.+10     	; 0x5a0 <__LOCK_REGION_LENGTH__+0x1a0>
- 596:	66 ee       	ldi	r22, 0xE6	; 230
- 598:	8f ef       	ldi	r24, 0xFF	; 255
- 59a:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 59e:	14 c0       	rjmp	.+40     	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
-					else if(Line_all_digit == 143) Forward(230,255);
- 5a0:	2f 38       	cpi	r18, 0x8F	; 143
- 5a2:	29 f4       	brne	.+10     	; 0x5ae <__LOCK_REGION_LENGTH__+0x1ae>
- 5a4:	6f ef       	ldi	r22, 0xFF	; 255
- 5a6:	86 ee       	ldi	r24, 0xE6	; 230
- 5a8:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 5ac:	0d c0       	rjmp	.+26     	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
-					else if(Line_all_digit == 31) Forward(210,255);
- 5ae:	2f 31       	cpi	r18, 0x1F	; 31
- 5b0:	29 f4       	brne	.+10     	; 0x5bc <__LOCK_REGION_LENGTH__+0x1bc>
- 5b2:	6f ef       	ldi	r22, 0xFF	; 255
- 5b4:	82 ed       	ldi	r24, 0xD2	; 210
- 5b6:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 5ba:	06 c0       	rjmp	.+12     	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
-					else if(Line_all_digit == 248) Forward(255,210);
- 5bc:	28 3f       	cpi	r18, 0xF8	; 248
- 5be:	21 f4       	brne	.+8      	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
- 5c0:	62 ed       	ldi	r22, 0xD2	; 210
- 5c2:	8f ef       	ldi	r24, 0xFF	; 255
- 5c4:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 67c:	83 30       	cpi	r24, 0x03	; 3
+ 67e:	61 f5       	brne	.+88     	; 0x6d8 <main+0x28e>
+					if(Line_all_digit == 199) Forward(240,255);
+ 680:	27 3c       	cpi	r18, 0xC7	; 199
+ 682:	29 f4       	brne	.+10     	; 0x68e <main+0x244>
+ 684:	6f ef       	ldi	r22, 0xFF	; 255
+ 686:	80 ef       	ldi	r24, 0xF0	; 240
+ 688:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 68c:	22 c0       	rjmp	.+68     	; 0x6d2 <main+0x288>
+					else if(Line_all_digit == 227) Forward(255,240);
+ 68e:	23 3e       	cpi	r18, 0xE3	; 227
+ 690:	29 f4       	brne	.+10     	; 0x69c <main+0x252>
+ 692:	60 ef       	ldi	r22, 0xF0	; 240
+ 694:	8f ef       	ldi	r24, 0xFF	; 255
+ 696:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 69a:	1b c0       	rjmp	.+54     	; 0x6d2 <main+0x288>
+					else if(Line_all_digit == 241) Forward(255, 225);
+ 69c:	21 3f       	cpi	r18, 0xF1	; 241
+ 69e:	29 f4       	brne	.+10     	; 0x6aa <main+0x260>
+ 6a0:	61 ee       	ldi	r22, 0xE1	; 225
+ 6a2:	8f ef       	ldi	r24, 0xFF	; 255
+ 6a4:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6a8:	14 c0       	rjmp	.+40     	; 0x6d2 <main+0x288>
+					else if(Line_all_digit == 143) Forward(225,255);
+ 6aa:	2f 38       	cpi	r18, 0x8F	; 143
+ 6ac:	29 f4       	brne	.+10     	; 0x6b8 <main+0x26e>
+ 6ae:	6f ef       	ldi	r22, 0xFF	; 255
+ 6b0:	81 ee       	ldi	r24, 0xE1	; 225
+ 6b2:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6b6:	0d c0       	rjmp	.+26     	; 0x6d2 <main+0x288>
+					else if(Line_all_digit == 31) Forward(215,255);
+ 6b8:	2f 31       	cpi	r18, 0x1F	; 31
+ 6ba:	29 f4       	brne	.+10     	; 0x6c6 <main+0x27c>
+ 6bc:	6f ef       	ldi	r22, 0xFF	; 255
+ 6be:	87 ed       	ldi	r24, 0xD7	; 215
+ 6c0:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6c4:	06 c0       	rjmp	.+12     	; 0x6d2 <main+0x288>
+					else if(Line_all_digit == 248) Forward(255,215);
+ 6c6:	28 3f       	cpi	r18, 0xF8	; 248
+ 6c8:	21 f4       	brne	.+8      	; 0x6d2 <main+0x288>
+ 6ca:	67 ed       	ldi	r22, 0xD7	; 215
+ 6cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 6ce:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 					timer = 1;
- 5c8:	e0 92 10 01 	sts	0x0110, r14	; 0x800110 <timer>
- 5cc:	f6 ce       	rjmp	.-532    	; 0x3ba <main+0x44>
+ 6d2:	c0 92 27 01 	sts	0x0127, r12	; 0x800127 <timer>
+ 6d6:	ea ce       	rjmp	.-556    	; 0x4ac <main+0x62>
 				}
 				else if(linecounter == 4){
- 5ce:	84 30       	cpi	r24, 0x04	; 4
- 5d0:	29 f5       	brne	.+74     	; 0x61c <__LOCK_REGION_LENGTH__+0x21c>
+ 6d8:	84 30       	cpi	r24, 0x04	; 4
+ 6da:	29 f5       	brne	.+74     	; 0x726 <main+0x2dc>
 					if(Line_all_digit == 195) Forward(255,255);
- 5d2:	23 3c       	cpi	r18, 0xC3	; 195
- 5d4:	29 f4       	brne	.+10     	; 0x5e0 <__LOCK_REGION_LENGTH__+0x1e0>
- 5d6:	6f ef       	ldi	r22, 0xFF	; 255
- 5d8:	8f ef       	ldi	r24, 0xFF	; 255
- 5da:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 5de:	1b c0       	rjmp	.+54     	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
+ 6dc:	23 3c       	cpi	r18, 0xC3	; 195
+ 6de:	29 f4       	brne	.+10     	; 0x6ea <main+0x2a0>
+ 6e0:	6f ef       	ldi	r22, 0xFF	; 255
+ 6e2:	8f ef       	ldi	r24, 0xFF	; 255
+ 6e4:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6e8:	1b c0       	rjmp	.+54     	; 0x720 <main+0x2d6>
 					else if(Line_all_digit == 135) Forward(230,255);
- 5e0:	27 38       	cpi	r18, 0x87	; 135
- 5e2:	29 f4       	brne	.+10     	; 0x5ee <__LOCK_REGION_LENGTH__+0x1ee>
- 5e4:	6f ef       	ldi	r22, 0xFF	; 255
- 5e6:	86 ee       	ldi	r24, 0xE6	; 230
- 5e8:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 5ec:	14 c0       	rjmp	.+40     	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
+ 6ea:	27 38       	cpi	r18, 0x87	; 135
+ 6ec:	29 f4       	brne	.+10     	; 0x6f8 <main+0x2ae>
+ 6ee:	6f ef       	ldi	r22, 0xFF	; 255
+ 6f0:	86 ee       	ldi	r24, 0xE6	; 230
+ 6f2:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6f6:	14 c0       	rjmp	.+40     	; 0x720 <main+0x2d6>
 					else if(Line_all_digit == 225) Forward(255,230);
- 5ee:	21 3e       	cpi	r18, 0xE1	; 225
- 5f0:	29 f4       	brne	.+10     	; 0x5fc <__LOCK_REGION_LENGTH__+0x1fc>
- 5f2:	66 ee       	ldi	r22, 0xE6	; 230
- 5f4:	8f ef       	ldi	r24, 0xFF	; 255
- 5f6:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 5fa:	0d c0       	rjmp	.+26     	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
-					else if(Line_all_digit == 15) Forward(215,255);
- 5fc:	2f 30       	cpi	r18, 0x0F	; 15
- 5fe:	29 f4       	brne	.+10     	; 0x60a <__LOCK_REGION_LENGTH__+0x20a>
- 600:	6f ef       	ldi	r22, 0xFF	; 255
- 602:	87 ed       	ldi	r24, 0xD7	; 215
- 604:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
- 608:	06 c0       	rjmp	.+12     	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
-					else if(Line_all_digit == 240) Forward(255,215);
- 60a:	20 3f       	cpi	r18, 0xF0	; 240
- 60c:	21 f4       	brne	.+8      	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
- 60e:	67 ed       	ldi	r22, 0xD7	; 215
- 610:	8f ef       	ldi	r24, 0xFF	; 255
- 612:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 6f8:	21 3e       	cpi	r18, 0xE1	; 225
+ 6fa:	29 f4       	brne	.+10     	; 0x706 <main+0x2bc>
+ 6fc:	66 ee       	ldi	r22, 0xE6	; 230
+ 6fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 700:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 704:	0d c0       	rjmp	.+26     	; 0x720 <main+0x2d6>
+					else if(Line_all_digit == 15) Forward(220,255);
+ 706:	2f 30       	cpi	r18, 0x0F	; 15
+ 708:	29 f4       	brne	.+10     	; 0x714 <main+0x2ca>
+ 70a:	6f ef       	ldi	r22, 0xFF	; 255
+ 70c:	8c ed       	ldi	r24, 0xDC	; 220
+ 70e:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 712:	06 c0       	rjmp	.+12     	; 0x720 <main+0x2d6>
+					else if(Line_all_digit == 240) Forward(255,220);
+ 714:	20 3f       	cpi	r18, 0xF0	; 240
+ 716:	21 f4       	brne	.+8      	; 0x720 <main+0x2d6>
+ 718:	6c ed       	ldi	r22, 0xDC	; 220
+ 71a:	8f ef       	ldi	r24, 0xFF	; 255
+ 71c:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 					timer = 1;
- 616:	e0 92 10 01 	sts	0x0110, r14	; 0x800110 <timer>
- 61a:	cf ce       	rjmp	.-610    	; 0x3ba <main+0x44>
+ 720:	c0 92 27 01 	sts	0x0127, r12	; 0x800127 <timer>
+ 724:	c3 ce       	rjmp	.-634    	; 0x4ac <main+0x62>
 				}
 				else if(linecounter == 0 && timer != 0 && all_black == false){							//   || (linecounter ==1 && Line_all_digit < 252 && Line_all_digit > 222)
- 61c:	81 11       	cpse	r24, r1
- 61e:	1e c0       	rjmp	.+60     	; 0x65c <__LOCK_REGION_LENGTH__+0x25c>
- 620:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <timer>
- 624:	88 23       	and	r24, r24
- 626:	89 f0       	breq	.+34     	; 0x64a <__LOCK_REGION_LENGTH__+0x24a>
- 628:	90 91 0d 01 	lds	r25, 0x010D	; 0x80010d <all_black>
- 62c:	91 11       	cpse	r25, r1
- 62e:	11 c0       	rjmp	.+34     	; 0x652 <__LOCK_REGION_LENGTH__+0x252>
-					if(timer > 0 && timer < 35){
- 630:	81 50       	subi	r24, 0x01	; 1
- 632:	82 32       	cpi	r24, 0x22	; 34
- 634:	30 f4       	brcc	.+12     	; 0x642 <__LOCK_REGION_LENGTH__+0x242>
+ 726:	81 11       	cpse	r24, r1
+ 728:	1e c0       	rjmp	.+60     	; 0x766 <main+0x31c>
+ 72a:	80 91 27 01 	lds	r24, 0x0127	; 0x800127 <timer>
+ 72e:	88 23       	and	r24, r24
+ 730:	89 f0       	breq	.+34     	; 0x754 <main+0x30a>
+ 732:	90 91 14 01 	lds	r25, 0x0114	; 0x800114 <all_black>
+ 736:	91 11       	cpse	r25, r1
+ 738:	11 c0       	rjmp	.+34     	; 0x75c <main+0x312>
+					if(timer > 0 && timer < 20){
+ 73a:	81 50       	subi	r24, 0x01	; 1
+ 73c:	83 31       	cpi	r24, 0x13	; 19
+ 73e:	30 f4       	brcc	.+12     	; 0x74c <main+0x302>
 						Forward(255,255);
- 636:	6f ef       	ldi	r22, 0xFF	; 255
- 638:	8f ef       	ldi	r24, 0xFF	; 255
- 63a:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
+ 740:	6f ef       	ldi	r22, 0xFF	; 255
+ 742:	8f ef       	ldi	r24, 0xFF	; 255
+ 744:	0e 94 9a 01 	call	0x334	; 0x334 <_Z7Forwardhh>
 						LED_ON;
- 63e:	2d 9a       	sbi	0x05, 5	; 5
- 640:	bc ce       	rjmp	.-648    	; 0x3ba <main+0x44>
+ 748:	2d 9a       	sbi	0x05, 5	; 5
+ 74a:	b0 ce       	rjmp	.-672    	; 0x4ac <main+0x62>
 					}
 					else {
 						LED_OFF;
- 642:	2d 98       	cbi	0x05, 5	; 5
+ 74c:	2d 98       	cbi	0x05, 5	; 5
 						Stop();
- 644:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
- 648:	b8 ce       	rjmp	.-656    	; 0x3ba <main+0x44>
+ 74e:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
+ 752:	ac ce       	rjmp	.-680    	; 0x4ac <main+0x62>
 					}
 				}
 				else if(linecounter == 0 && all_black == true){
- 64a:	80 91 0d 01 	lds	r24, 0x010D	; 0x80010d <all_black>
- 64e:	88 23       	and	r24, r24
- 650:	29 f0       	breq	.+10     	; 0x65c <__LOCK_REGION_LENGTH__+0x25c>
+ 754:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <all_black>
+ 758:	88 23       	and	r24, r24
+ 75a:	29 f0       	breq	.+10     	; 0x766 <main+0x31c>
 					cli(); //Clear all interrupts
- 652:	f8 94       	cli
+ 75c:	f8 94       	cli
 					//turn around
 					all_black = false;
- 654:	10 92 0d 01 	sts	0x010D, r1	; 0x80010d <all_black>
+ 75e:	10 92 14 01 	sts	0x0114, r1	; 0x800114 <all_black>
 					sei(); //Enable all interrupts
- 658:	78 94       	sei
- 65a:	af ce       	rjmp	.-674    	; 0x3ba <main+0x44>
+ 762:	78 94       	sei
+ 764:	a3 ce       	rjmp	.-698    	; 0x4ac <main+0x62>
 				}
 				else Stop();
- 65c:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
- 660:	ac ce       	rjmp	.-680    	; 0x3ba <main+0x44>
+ 766:	0e 94 9f 01 	call	0x33e	; 0x33e <_Z4Stopv>
+ 76a:	a0 ce       	rjmp	.-704    	; 0x4ac <main+0x62>
 
-00000662 <__udivmodqi4>:
- 662:	99 1b       	sub	r25, r25
- 664:	79 e0       	ldi	r23, 0x09	; 9
- 666:	04 c0       	rjmp	.+8      	; 0x670 <__udivmodqi4_ep>
+0000076c <__udivmodqi4>:
+ 76c:	99 1b       	sub	r25, r25
+ 76e:	79 e0       	ldi	r23, 0x09	; 9
+ 770:	04 c0       	rjmp	.+8      	; 0x77a <__udivmodqi4_ep>
 
-00000668 <__udivmodqi4_loop>:
- 668:	99 1f       	adc	r25, r25
- 66a:	96 17       	cp	r25, r22
- 66c:	08 f0       	brcs	.+2      	; 0x670 <__udivmodqi4_ep>
- 66e:	96 1b       	sub	r25, r22
+00000772 <__udivmodqi4_loop>:
+ 772:	99 1f       	adc	r25, r25
+ 774:	96 17       	cp	r25, r22
+ 776:	08 f0       	brcs	.+2      	; 0x77a <__udivmodqi4_ep>
+ 778:	96 1b       	sub	r25, r22
 
-00000670 <__udivmodqi4_ep>:
- 670:	88 1f       	adc	r24, r24
- 672:	7a 95       	dec	r23
- 674:	c9 f7       	brne	.-14     	; 0x668 <__udivmodqi4_loop>
- 676:	80 95       	com	r24
- 678:	08 95       	ret
+0000077a <__udivmodqi4_ep>:
+ 77a:	88 1f       	adc	r24, r24
+ 77c:	7a 95       	dec	r23
+ 77e:	c9 f7       	brne	.-14     	; 0x772 <__udivmodqi4_loop>
+ 780:	80 95       	com	r24
+ 782:	08 95       	ret
 
-0000067a <_exit>:
- 67a:	f8 94       	cli
+00000784 <_exit>:
+ 784:	f8 94       	cli
 
-0000067c <__stop_program>:
- 67c:	ff cf       	rjmp	.-2      	; 0x67c <__stop_program>
+00000786 <__stop_program>:
+ 786:	ff cf       	rjmp	.-2      	; 0x786 <__stop_program>

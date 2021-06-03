@@ -41,6 +41,9 @@
 #define BAUD				76800//Baud rate, normally used by Arduino 9600, possible rates: n * 9600
 #define MYUBRR				FOSC/16/BAUD-1 //Calculate my baud rate
 
+#define d_L_normal 241
+#define d_R_normal 255
+
 #define  Line_L3	Analogue_value[0] //Line sensor left  outside
 #define  Line_L2	Analogue_value[1]
 #define  Line_L1	Analogue_value[2]
@@ -64,8 +67,10 @@ unsigned char Line_L0_digit;
 unsigned char Line_R0_digit;
 unsigned char Line_all_digit;
 unsigned char linecounter;
+unsigned char white[8];
+unsigned char black[8];
 bool all_black;
-unsigned char Threshold;
+unsigned char Threshold[8];
 
 unsigned char US_Time_L; //Runtime of US signal, HI part
 unsigned char US_Time_R; //Runtime of US signal, HI part
@@ -78,6 +83,7 @@ void USART_Transmit(unsigned char); //Transmit ASCII to Data Visualizer
 void USART_Init(unsigned int); //Initialize USART Transmission/Reception
 void Transmit_literal (char); //Transmit literal to Data Visualizer Monitor
 void Data_Visualizer (void); //Define datas to be vizualized
+void kalibrierung(void);
 
 
 //Main routine
@@ -88,9 +94,9 @@ int main(void) {
 	//cli(); //Clear all interrupts
 	Stop();
 	_delay_ms(1000);
-	//char Motor_Left = 185; //Normal PWM parameter for...
-	//char Motor_Right = 192; //...driving straight on
-	Threshold = 100;	
+	kalibrierung();
+	Data_Visualizer();
+	_delay_ms(100);
 	
 	
 	while (1) {
@@ -98,35 +104,35 @@ int main(void) {
 		
 		Line_all_digit = 0b00000000; //set all line-values to 0
 		linecounter = 8;
-		if(Line_L3 < Threshold){
+		if(Line_L3 < Threshold[0]){
 			 Line_all_digit |= 0b10000000;
 			 linecounter--;
 		} //if left sensor sees white set left bit to 1
-		if(Line_L2 < Threshold){
+		if(Line_L2 < Threshold[1]){
 			Line_all_digit |= 0b01000000;
 			linecounter--;
 		}
-		if(Line_L1 < Threshold){
+		if(Line_L1 < Threshold[2]){
 			 Line_all_digit |= 0b00100000;
 			 linecounter--;
 		}
-		if(Line_L0 < Threshold){ 
+		if(Line_L0 < Threshold[3]){ 
 			Line_all_digit |= 0b00010000;
 			linecounter--;
 		}
-		if(Line_R0 < Threshold){
+		if(Line_R0 < Threshold[4]){
 			Line_all_digit |= 0b00001000;
 			linecounter--;
 		}
-		if(Line_R1 < Threshold){
+		if(Line_R1 < Threshold[5]){
 			Line_all_digit |= 0b00000100;
 			linecounter--;
 		}
-		if(Line_R2 < Threshold){
+		if(Line_R2 < Threshold[6]){
 			Line_all_digit |= 0b00000010;
 			linecounter--;
 		}
-		if(Line_R3 < Threshold){
+		if(Line_R3 < Threshold[7]){
 			Line_all_digit |= 0b00000001;
 			linecounter--;
 		} //if right sensor sees white set right bit to 1
@@ -157,28 +163,28 @@ int main(void) {
 					timer = 1;
 				}
 				else if(linecounter == 1){
-					if(Line_all_digit == 254) Forward(255,155);
-					else if(Line_all_digit == 127) Forward(155,255);
+					if(Line_all_digit == 254) Forward(255,140);
+					else if(Line_all_digit == 127) Forward(140,255);
 				}
 				else if(linecounter == 3){
-					if(Line_all_digit == 199) Forward(245,255);
-					else if(Line_all_digit == 227) Forward(255,245);
-					else if(Line_all_digit == 241) Forward(255, 230);
-					else if(Line_all_digit == 143) Forward(230,255);
-					else if(Line_all_digit == 31) Forward(210,255);
-					else if(Line_all_digit == 248) Forward(255,210);
+					if(Line_all_digit == 199) Forward(240,255);
+					else if(Line_all_digit == 227) Forward(255,240);
+					else if(Line_all_digit == 241) Forward(255, 225);
+					else if(Line_all_digit == 143) Forward(225,255);
+					else if(Line_all_digit == 31) Forward(215,255);
+					else if(Line_all_digit == 248) Forward(255,215);
 					timer = 1;
 				}
 				else if(linecounter == 4){
 					if(Line_all_digit == 195) Forward(255,255);
 					else if(Line_all_digit == 135) Forward(230,255);
 					else if(Line_all_digit == 225) Forward(255,230);
-					else if(Line_all_digit == 15) Forward(215,255);
-					else if(Line_all_digit == 240) Forward(255,215);
+					else if(Line_all_digit == 15) Forward(220,255);
+					else if(Line_all_digit == 240) Forward(255,220);
 					timer = 1;
 				}
 				else if(linecounter == 0 && timer != 0 && all_black == false){							//   || (linecounter ==1 && Line_all_digit < 252 && Line_all_digit > 222)
-					if(timer > 0 && timer < 35){
+					if(timer > 0 && timer < 20){
 						Forward(255,255);
 						LED_ON;
 					}
@@ -217,15 +223,59 @@ void Data_Visualizer (void) {
 	//Data[9] = US_Time_R;
 	//Data[8] = timer;
 	//Data[8] = counter;
-	Data[0] = Line_all_digit;
-	Data[1] = linecounter;
-	Data[3] = US_Time_L;
-	Data[4] = US_Time_R;
-	Data[6] = Line_L3;
-	Data[7] = Line_R0;
-	Data[9] = timer;
 }
 
+//void kalibrieren(void){
+	//Forward(100,100);
+	//timer = 1;
+	//while(timer > 1 && timer < 32){
+		//for(unsigned char i=0; i<8; i++){
+			//if(Analogue_value[i] < white[i]){
+				//white[i] = Analogue_value[i];
+				//timer = 10;
+			//}
+			//else if(Analogue_value[i] > black[i]){
+				//black[i] = Analogue_value[i];
+				//timer = 10;
+			//}
+		//}
+	//}
+	//for(unsigned char i = 0; i < 8; i++){
+		//Threshold[i] = ((black[i] - white[i])/2) + white[i];
+	//}
+	//Stop();
+//}
+
+void kalibrierung(void){
+	for (unsigned char i = 0; i < 8; i++){
+		white[i] = Analogue_value[i];
+		black[i] = Analogue_value[i];
+	}
+	
+	//slowly driving to detect values
+	Forward((unsigned char) d_L_normal/2,(unsigned char) d_R_normal/2);
+
+	timer = 1;
+	while (timer > 0 && timer < 15 && US_Time_L > 20 && US_Time_R > 20){
+		for (unsigned char i = 0; i < 8; i++){
+			if (white[i] > Analogue_value[i]) {
+				white[i] = Analogue_value[i];
+				//if (timer > 10) = 10;
+				timer = 1;
+			}
+			if (black[i] < Analogue_value[i]){
+				black[i] = Analogue_value[i];
+				//if (timer > 10) = 10;
+				timer = 1;
+			}
+			Threshold[i] = ((black[i] - white[i]) /2) + white[i];
+			Data_Visualizer();
+		}
+	}
+	timer = 0;
+	Stop();
+	LED_ON;
+}
 /***************************************************************************************/
 
 
