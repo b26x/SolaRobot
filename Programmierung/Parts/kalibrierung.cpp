@@ -58,3 +58,36 @@ if(Line_R3 < Threshold[7]){
   Line_all_digit |= 0b00000001;
   linecounter--;
 } //if right sensor sees white set right bit to 1
+
+
+void kalibrierung(void){
+	for (unsigned char i = 0; i < 8; i++){
+		white[i] = Analogue_value[i];
+		black[i] = Analogue_value[i];
+	}
+		
+		
+	//slowly driving to detect values
+	Forward((unsigned char) d_L_normal/2,(unsigned char) d_R_normal/2);
+
+	timer = 1;
+	while (timer > 0 && timer < 15 && US_Time_L > 20 && US_Time_R > 20){
+		for (unsigned char i = 0; i < 8; i++){
+			if (white[i] > Analogue_value[i]) {
+				white[i] = Analogue_value[i];
+				//if (timer > 10) = 10;
+				timer = 1;
+			}
+			if (black[i] < Analogue_value[i]){
+				black[i] = Analogue_value[i];
+				//if (timer > 10) = 10;
+				timer = 1;
+			}
+			Threshold[i] = ((black[i] - white[i]) /2) + white[i];
+			Data_Visualizer();
+		}
+	}
+	timer = 0;
+	Stop();
+	LED_ON;
+}
